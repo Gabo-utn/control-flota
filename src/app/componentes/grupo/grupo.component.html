@@ -1,0 +1,13 @@
+<br>
+  <div style="width: 100%;" class="mat-elevation-z8">
+    <mat-card>
+      <div style="width: 100%;" [hidden]="mostrarFormulario">
+      <mat-form-field>
+                <mat-label>Filtrar</mat-label>
+                <input matInput (keyup)="filter($event)" placeholder="..." #input>
+            </mat-form-field>
+            &nbsp;&nbsp;
+            <button mat-raised-button (click)="agregar()" style="float:right;">grupoID</button>
+      </div>
+    </mat-card>
+  </div>
