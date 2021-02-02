@@ -8,6 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { GrupoService } from 'src/app/servicios/grupo.service';
 ;
+;
 
 @Component({
   selector: 'app-grupo',
@@ -17,7 +18,7 @@ import { GrupoService } from 'src/app/servicios/grupo.service';
 export class GrupoComponent implements OnInit {
   items: Grupo[] = [];
   seleccionado = new Grupo();
-  columnas: string[] = ['grupoId', 'grupoNombre', 'grupoDescripcion', 'acciones'];
+  columnas: string[] = ['grupId', 'grupNombre', 'grupDescripcion', 'acciones'];
   form = new FormGroup({});
   mostrarFormulario = false;
   dataSource= new MatTableDataSource<Grupo>();
@@ -41,7 +42,6 @@ export class GrupoComponent implements OnInit {
     this.form = this.formBuilder.group({
       grupId: [''],
       grupDescripcion: ['', Validators.required],
-
       grupNombre:[],
     });
     this.grupoService.get().subscribe(
@@ -133,6 +133,7 @@ export class GrupoComponent implements OnInit {
   cancelar() {
     this.mostrarFormulario = false;
   }
+
 
 
 
