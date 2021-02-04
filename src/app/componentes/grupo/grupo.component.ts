@@ -7,6 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { GrupoService } from 'src/app/servicios/grupo.service';
+import { ConfirmarComponent } from 'src/app/shared/confirmar//confirmar.component';
 ;
 ;
 
@@ -68,7 +69,7 @@ export class GrupoComponent implements OnInit {
     this.mostrarFormulario = true;
   }
 
- /* delete(row: Grupo) {
+  delete(row: Grupo) {
 
     const dialogRef = this.dialog.open(ConfirmarComponent);
 
@@ -76,7 +77,7 @@ export class GrupoComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
 
       if (result) {
-        this.GrupoService.delete(row.grupId)
+        this.grupoService.delete(row.grupId)
           .subscribe(() => {
 
             //this.items = this.items.filter( x => x !== row);
@@ -94,7 +95,7 @@ export class GrupoComponent implements OnInit {
       }
     });
   }
-*/
+
   edit(seleccionado: Grupo) {
     this.mostrarFormulario = true;
     this.seleccionado = seleccionado;

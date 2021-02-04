@@ -7,6 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { TareaService } from 'src/app/servicios/tarea.service';
+import { ConfirmarComponent } from 'src/app/shared/confirmar//confirmar.component';
 ;
 
 @Component({
@@ -105,6 +106,33 @@ export class TareaComponent implements OnInit {
   cancelar() {
     this.mostrarFormulario = false;
   }
+  delete(row: Tarea) {
+
+    const dialogRef = this.dialog.open(ConfirmarComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+
+      if (result) {
+        this.tareaService.delete(row.tareId)
+          .subscribe(() => {
+
+            //this.items = this.items.filter( x => x !== row);
+
+            this.items = this.items.filter((item) => {
+              if (item.tareId != row.tareId) {
+                return true
+              } else {
+                return false
+              }
+            });
+
+            this.actualizarTabla();
+          });
+      }
+    });
+  }
+
 
 
 

@@ -23,7 +23,7 @@ import { AppConfigService } from './core/config.service';
 import { GrupoComponent } from './componentes/grupo/grupo.component';
 import { TareaComponent } from './componentes/tarea/tarea.component';
 import { ServicioComponent } from './componentes/servicio/servicio.component';
-
+import { ConfirmarComponent } from './shared/confirmar/confirmar.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +32,7 @@ import { ServicioComponent } from './componentes/servicio/servicio.component';
     GrupoComponent,
     TareaComponent,
     ServicioComponent,
+    ConfirmarComponent
 
   ],
   imports: [
@@ -54,7 +55,8 @@ import { ServicioComponent } from './componentes/servicio/servicio.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+
 
   ],
   providers: [

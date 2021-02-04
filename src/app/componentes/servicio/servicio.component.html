@@ -1,1 +1,134 @@
-<p>servicio works!</p>
+<br>
+<div style="width: 100%;" class="mat-elevation-z8">
+  <mat-card>
+            <mat-form-field>
+                <mat-label>Filtrar</mat-label>
+                <input matInput (keyup)="filter($event)" placeholder="..." #input>
+            </mat-form-field>
+            &nbsp;&nbsp;
+            <button mat-raised-button (click)="agregar()" style="float:right;">Agregar Servicio</button>
+
+
+            <table mat-table [dataSource]="dataSource" matSort>
+                <mat-text-column name="servId" headerText="ID!"></mat-text-column>
+
+                <ng-container matColumnDef="servDescripcion">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </th>
+                    <td mat-cell *matCellDef="let serv"> {{ serv.servDescripcion }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="servNombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                    <td mat-cell *matCellDef="let serv"> {{ serv.servNombre }} </td>
+                </ng-container>
+                 <ng-container matColumnDef="servPeriodo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                    <td mat-cell *matCellDef="let serv"> {{ serv.servPeriodo }} </td>
+                </ng-container>
+                <ng-container matColumnDef="servKM">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                    <td mat-cell *matCellDef="let serv"> {{ serv.servKM }} </td>
+                </ng-container>
+                <ng-container matColumnDef="servFecha">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                    <td mat-cell *matCellDef="let serv"> {{ serv.servFecha }} </td>
+                </ng-container>
+                <ng-container matColumnDef="servFechaAlta">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                    <td mat-cell *matCellDef="let serv"> {{ serv.servFechaAlta }} </td>
+                </ng-container>
+
+
+
+
+
+
+
+                <ng-container matColumnDef="acciones">
+                    <th mat-header-cell *matHeaderCellDef> </th>
+                    <td mat-cell *matCellDef="let serv">
+                            <button title="editar" (click)="edit(serv)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button title="borrar" (click)="delete(serv)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="columnas" ></tr>
+                <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No hay datos para el filtro "{{input.value}}"</td>
+                </tr>
+            </table>
+           <div *ngIf="mostrarFormulario">
+
+            <form [formGroup]="form">
+                <div>
+                    <div>
+                        <label>Id: </label>
+                        <ul>
+                            <li *ngIf="this.form.value.servId">{{this.form.value.servId}}</li>
+                            <li *ngIf="!this.form.value.servId">Id aun no inicializado</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <label>Fecha de Alta</label>
+                        <ul>
+                            <li *ngIf="this.form.value.servFechaAlta">{{this.form.value.servFechaAlta | date:
+                                'dd-LL-yyyy'}}
+                            </li>
+                            <li *ngIf="!this.form.value.servFechaAlta">Fecha aun no inicializada</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <br>
+                <div>
+                    <div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Descripcion</mat-label>
+                            <input matInput formControlName="servDescripcion" required>
+                            <mat-error>El campo no puede ser vacio</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput formControlName="servNombre" required>
+                            <mat-error>El campo no puede ser vacio</mat-error>
+                        </mat-form-field>
+                    </div>
+                     <div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Periodo</mat-label>
+                            <input matInput formControlName="servPeriodo" required>
+                            <mat-error>El campo no puede ser vacio</mat-error>
+                        </mat-form-field>
+                    </div>
+                     <div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Kilometros</mat-label>
+                            <input matInput formControlName="servKM" required>
+                            <mat-error>El campo no puede ser vacio</mat-error>
+                        </mat-form-field>
+                    </div>
+
+
+
+
+                </div>
+
+                <div>
+                    <button mat-raised-button color="primary" (click)="guardar()">Guardar</button>
+                    &nbsp;
+                    <button mat-raised-button (click)="cancelar()">Cancelar</button>
+                </div>
+            </form>
+          </div>
+
+  </mat-card>
+</div>
