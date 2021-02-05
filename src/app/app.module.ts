@@ -24,6 +24,7 @@ import { GrupoComponent } from './componentes/grupo/grupo.component';
 import { TareaComponent } from './componentes/tarea/tarea.component';
 import { ServicioComponent } from './componentes/servicio/servicio.component';
 import { ConfirmarComponent } from './shared/confirmar/confirmar.component';
+import { ServicioTareaComponent } from './componentes/servicio_tarea/servicio_tarea.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ConfirmarComponent } from './shared/confirmar/confirmar.component';
     GrupoComponent,
     TareaComponent,
     ServicioComponent,
-    ConfirmarComponent
+    ConfirmarComponent,
+    ServicioTareaComponent
 
   ],
   imports: [

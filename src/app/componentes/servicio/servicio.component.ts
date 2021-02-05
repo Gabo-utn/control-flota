@@ -1,13 +1,19 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { Servicio } from './../../modelo/servicio';
+
+
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+
+import { Servicio } from './../../modelo/servicio';
 import { ServicioService } from 'src/app/servicios/servicio.service';
 import { ConfirmarComponent } from 'src/app/shared/confirmar//confirmar.component';
+import { DatosService } from 'src/app/shared/confirmar/datos/datos.service';
+import { ServicioTareaService } from 'src/app/servicios/servicio_tarea';
 
 
 
@@ -27,8 +33,11 @@ export class ServicioComponent implements OnInit,AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) tabla: MatTable<Servicio> | undefined;
 
-  constructor(private servicioService:ServicioService,
+  constructor(
+    private servicioService:ServicioService,
     private formBuilder: FormBuilder,
+    private datosService: DatosService,
+    public stService : ServicioTareaService,
     public dialog: MatDialog) { }
 
 
@@ -37,6 +46,19 @@ export class ServicioComponent implements OnInit,AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  actualizar(){
+    this.dataSource.data = this.servicios;
+    this.dataSource.sort = this.sort;
+   }
+   actualizarTabla() {
+    this.dataSource.data = this.servicios;
+    this.dataSource.sort = this.sort;
   }
   ngOnInit(): void {
 
@@ -50,41 +72,62 @@ export class ServicioComponent implements OnInit,AfterViewInit {
       servFechaAlta: [''],
       servBorrado: ['']
     });
+
+
     this.servicioService.get().subscribe(
-      (servicios: Servicio[]) => {
+      (servicios) => {
         this.servicios = servicios;
-        this.actualizarTabla();
+        this.actualizar();
+      })
+  }
+
+
+
+
+     mostrarServicio():Boolean{
+      if(this.seleccionado.servId){
+        return this.mostrarFormulario = true;
+      }else{
+        return this.mostrarFormulario = false;
       }
-    )
-  }
-
-  actualizarTabla() {
-    this.dataSource.data = this.servicios;
-    this.dataSource.sort = this.sort;
-  }
-
-  filter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  agregar() {
-    this.form.reset();
-    this.seleccionado = new Servicio();
-    this.mostrarFormulario = true;
-  }
-  edit(seleccionado: Servicio) {
-    this.mostrarFormulario = true;
-    this.seleccionado = seleccionado;
-    this.form.setValue(seleccionado);
-  }
-
-  guardar() {
-    if (!this.form.valid) {
-      return;
     }
 
-    Object.assign(this.seleccionado, this.form.value);
+
+   actualizarST(id : number){
+      this.datosService.sertar.forEach( (dato) => { dato.setaServId = id;
+        if(dato.setaBorrado){
+          this.stService.delete(dato.setaId).subscribe();
+        }else if(dato.setaId < 0){
+          this.stService.post(dato).subscribe();
+        }else (dato.setaId > 0 )
+        this.stService.put(dato).subscribe();
+        }
+       );
+      this.actualizar();
+      this.mostrarFormulario = false
+      }
+
+
+
+
+
+    agregar() {
+      this.form.reset();
+      this.seleccionado = new Servicio();
+      this.mostrarFormulario = true;
+    }
+    edit(seleccionado: Servicio) {
+      this.mostrarFormulario = true;
+      this.seleccionado = seleccionado;
+      this.form.setValue(seleccionado);
+    }
+
+    guardar() {
+      if (!this.form.valid) {
+        return;
+      }
+
+    Object.assign(this.seleccionado,this.form.value);
 
     // si el formulario es diferente asignar uno por uno...
     //this.seleccionado.prodDescripcion = this.form.value.prodDescripcion;
@@ -134,4 +177,5 @@ export class ServicioComponent implements OnInit,AfterViewInit {
 
 
 
-}
+  }
+
