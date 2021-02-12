@@ -82,7 +82,10 @@ export class ServicioComponent implements OnInit,AfterViewInit {
   }
 
 
-
+  filter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
      mostrarServicio():Boolean{
       if(this.seleccionado.servId){
