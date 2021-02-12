@@ -56,10 +56,7 @@ export class ServicioComponent implements OnInit,AfterViewInit {
     this.dataSource.data = this.servicios;
     this.dataSource.sort = this.sort;
    }
-   actualizarTabla() {
-    this.dataSource.data = this.servicios;
-    this.dataSource.sort = this.sort;
-  }
+
   ngOnInit(): void {
 
     this.form = this.formBuilder.group({
@@ -140,15 +137,16 @@ export class ServicioComponent implements OnInit,AfterViewInit {
     if (this.seleccionado.servId) {
       this.servicioService.put(this.seleccionado)
         .subscribe((servicio: Servicio) => {
-          this.mostrarFormulario = false;
+          this.actualizarST(servicio.servId);
+
         });
 
     } else {
       this.servicioService.post(this.seleccionado)
         .subscribe((servicio: Servicio) => {
           this.servicios.push(servicio);
-          this.mostrarFormulario = false;
-          this.actualizarTabla();
+          this.actualizarST(servicio.servId);
+
         });
 
     }
@@ -170,7 +168,7 @@ export class ServicioComponent implements OnInit,AfterViewInit {
 
             this.servicios = this.servicios.filter( x => x !== row);
 
-            this.actualizarTabla();
+            this.actualizar();
           });
       }
     });

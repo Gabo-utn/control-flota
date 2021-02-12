@@ -48,6 +48,7 @@
             </table>
            <div *ngIf="mostrarFormulario">
 
+
             <form [formGroup]="form">
                 <div>
                     <div>
@@ -96,7 +97,10 @@
                 </div>
             </form>
           </div>
-
+          <div *ngIf="mostrarFormulario">
+          <app-grupo-servicio>
+          </app-grupo-servicio>
+          </div>
   </mat-card>
 </div>
 

@@ -8,15 +8,16 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { GrupoService } from 'src/app/servicios/grupo.service';
 import { ConfirmarComponent } from 'src/app/shared/confirmar//confirmar.component';
-;
-;
+import { DatosService } from 'src/app/shared/confirmar/datos/datos.service';
+import { GrupoServicioService } from 'src/app/servicios/grupo_servicio.service';
+import { GrupoServicioComponent } from '../grupo_servicio/grupo_servicio.component';
 
 @Component({
   selector: 'app-grupo',
   templateUrl: './grupo.component.html',
   styleUrls: ['./grupo.component.css']
 })
-export class GrupoComponent implements OnInit {
+export class GrupoComponent implements OnInit,AfterViewInit {
   items: Grupo[] = [];
   seleccionado = new Grupo();
   columnas: string[] = ['grupId', 'grupNombre', 'grupDescripcion', 'acciones'];
@@ -29,7 +30,9 @@ export class GrupoComponent implements OnInit {
 
   constructor(private grupoService: GrupoService,
     private formBuilder: FormBuilder,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    public gsService: GrupoServicioService,
+    public datosService: DatosService) { }
 
 
 
@@ -51,6 +54,19 @@ export class GrupoComponent implements OnInit {
         this.actualizarTabla();
       }
     )
+  }
+  actualizarGS(id : number){
+    this.datosService.gruser.forEach( (dato) => { dato.grusServId = id;
+      if(dato.grusBorrado){
+        this.gsService.delete(dato.grusId).subscribe();
+      }else if(dato.grusId < 0){
+        this.gsService.post(dato).subscribe();
+      }else (dato.grusId > 0 )
+        this.gsService.put(dato).subscribe();
+      }
+   );
+    this.actualizarTabla();
+    this.mostrarFormulario = false;
   }
 
   actualizarTabla() {
@@ -117,15 +133,18 @@ export class GrupoComponent implements OnInit {
     if (this.seleccionado.grupId) {
       this.grupoService.put(this.seleccionado)
         .subscribe((Grupo) => {
-          this.mostrarFormulario = false;
+          this.actualizarGS(Grupo.grupId);
+          //this.mostrarFormulario = false;
         });
 
     } else {
       this.grupoService.post(this.seleccionado)
         .subscribe((Grupo) => {
           this.items.push(Grupo);
-          this.mostrarFormulario = false;
-          this.actualizarTabla();
+          this.actualizarGS(Grupo.grupId);
+
+          //this.mostrarFormulario = false;
+          //this.actualizarTabla();
         });
 
     }

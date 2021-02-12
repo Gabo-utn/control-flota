@@ -61,8 +61,8 @@ export class ServicioTareaComponent implements OnInit {
     );
 
     this.tareaService.get().subscribe(
-      (productos) => {
-        this.tareas = productos;
+      (tarea) => {
+        this.tareas = tarea;
       }
     )
   }
