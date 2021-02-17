@@ -26,6 +26,7 @@ import { ServicioComponent } from './componentes/servicio/servicio.component';
 import { ConfirmarComponent } from './shared/confirmar/confirmar.component';
 import { ServicioTareaComponent } from './componentes/servicio_tarea/servicio_tarea.component';
 import { GrupoServicioComponent } from './componentes/grupo_servicio/grupo_servicio.component';
+import { MovilServicioComponent } from './componentes/movil_servicio/movil_servicio.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { GrupoServicioComponent } from './componentes/grupo_servicio/grupo_servi
     ConfirmarComponent,
     ServicioTareaComponent,
     GrupoServicioComponent,
+    MovilServicioComponent,
 
 
   ],
