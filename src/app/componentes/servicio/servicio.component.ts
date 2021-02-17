@@ -25,10 +25,13 @@ import { ServicioTareaService } from 'src/app/servicios/servicio_tarea';
 export class ServicioComponent implements OnInit,AfterViewInit {
   servicios: Servicio[] = [];
   seleccionado = new Servicio();
+
   columnas: string[] = ['servId','servNombre','servDescripcion','servPeriodo','servKM','servFecha','acciones'];
   form = new FormGroup({});
+
   mostrarFormulario = false;
   dataSource= new MatTableDataSource<Servicio>();
+
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) tabla: MatTable<Servicio> | undefined;

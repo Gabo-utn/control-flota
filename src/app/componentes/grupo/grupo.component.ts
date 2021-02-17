@@ -46,7 +46,9 @@ export class GrupoComponent implements OnInit,AfterViewInit {
     this.form = this.formBuilder.group({
       grupId: [''],
       grupDescripcion: ['', Validators.required],
-      grupNombre:[],
+      grupNombre:['', Validators.required],
+      grupBorrado: [''],
+      grupFechaAlta: ['']
     });
     this.grupoService.get().subscribe(
       (Grupo) => {
@@ -54,6 +56,13 @@ export class GrupoComponent implements OnInit,AfterViewInit {
         this.actualizarTabla();
       }
     )
+  }
+  mostrarGrupo():Boolean{
+    if(this.seleccionado.grupId){
+      return this.mostrarFormulario = true;
+    }else{
+      return this.mostrarFormulario = false;
+    }
   }
   actualizarGS(id : number){
     this.datosService.gruser.forEach( (dato) => { dato.grusServId = id;
