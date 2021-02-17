@@ -100,8 +100,10 @@ export class ServicioComponent implements OnInit,AfterViewInit {
       this.datosService.sertar.forEach( (dato) => { dato.setaServId = id;
         if(dato.setaBorrado){
           this.stService.delete(dato.setaId).subscribe();
+
         }else if(dato.setaId < 0){
           this.stService.post(dato).subscribe();
+
         }else (dato.setaId > 0 )
         this.stService.put(dato).subscribe();
         }
@@ -181,5 +183,5 @@ export class ServicioComponent implements OnInit,AfterViewInit {
 
 
 
-  }
+}
 

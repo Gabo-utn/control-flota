@@ -14,7 +14,7 @@ import { DatosService } from 'src/app/shared/confirmar/datos/datos.service';
 
 @Component({
   selector: 'app-servicio-tarea',
-  templateUrl: './servicio-tarea.component.html',
+  templateUrl: './servicio_tarea.component.html',
   styleUrls: ['./servicio_tarea.component.css']
 })
 export class ServicioTareaComponent implements OnInit {
