@@ -1,7 +1,4 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-
-
-
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -12,8 +9,8 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Servicio } from './../../modelo/servicio';
 import { ServicioService } from 'src/app/servicios/servicio.service';
 import { ConfirmarComponent } from 'src/app/shared/confirmar//confirmar.component';
-import { DatosService } from 'src/app/shared/confirmar/datos/datos.service';
-import { ServicioTareaService } from 'src/app/servicios/servicio_tarea';
+import { GlobalService } from '../../servicios/global.service';
+import { ServicioTareaService } from 'src/app/servicios/servicio-tarea.service';
 
 
 
@@ -23,10 +20,16 @@ import { ServicioTareaService } from 'src/app/servicios/servicio_tarea';
   styleUrls: ['./servicio.component.css']
 })
 export class ServicioComponent implements OnInit,AfterViewInit {
+
   servicios: Servicio[] = [];
   seleccionado = new Servicio();
 
-  columnas: string[] = ['servId','servNombre','servDescripcion','servPeriodo','servKM','servFecha','acciones'];
+  columnas: string[] = ['servNombre',
+                        'servDescripcion',
+                        'servPeriodo',
+                        'servKM',
+                        'servFecha',
+                        'acciones'];
   form = new FormGroup({});
 
   mostrarFormulario = false;
@@ -39,7 +42,7 @@ export class ServicioComponent implements OnInit,AfterViewInit {
   constructor(
     private servicioService:ServicioService,
     private formBuilder: FormBuilder,
-    private datosService: DatosService,
+    private globalService: GlobalService,
     public stService : ServicioTareaService,
     public dialog: MatDialog) { }
 
@@ -97,7 +100,7 @@ export class ServicioComponent implements OnInit,AfterViewInit {
 
 
    actualizarST(id : number){
-      this.datosService.sertar.forEach( (dato) => { dato.setaServId = id;
+    this.globalService.items.forEach( (dato) => { dato.setaServId = id;
         if(dato.setaBorrado){
           this.stService.delete(dato.setaId).subscribe();
 
@@ -184,4 +187,3 @@ export class ServicioComponent implements OnInit,AfterViewInit {
 
 
 }
-

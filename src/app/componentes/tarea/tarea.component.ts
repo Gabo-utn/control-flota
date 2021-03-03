@@ -1,11 +1,13 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { Tarea } from './../../modelo/tarea';
+
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+
+import { Tarea } from './../../modelo/tarea';
 import { TareaService } from 'src/app/servicios/tarea.service';
 import { ConfirmarComponent } from 'src/app/shared/confirmar//confirmar.component';
 ;
@@ -18,10 +20,17 @@ import { ConfirmarComponent } from 'src/app/shared/confirmar//confirmar.componen
 export class TareaComponent implements OnInit {
   items: Tarea[] = [];
   seleccionado = new Tarea();
-  columnas: string[] = ['tareId','tareNombre','tareDescripcion','tareUnidadMedida','tareCantidad', 'tareCosto','acciones'];
+
+  columnas: string[] = ['tareNombre',
+                        'tareDescripcion',
+                        'tareUnidadMedida',
+                        'tareCantidad',
+                         'tareCosto',
+                         'acciones'];
   form = new FormGroup({});
   mostrarFormulario = false;
   dataSource= new MatTableDataSource<Tarea>();
+
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) tabla: MatTable<Tarea> | undefined;
@@ -39,11 +48,16 @@ export class TareaComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    this.form = this.formBuilder.group({
-      tareId: [''],
-      tareDescripcion: ['', Validators.required],
 
-      tareNombre:[],
+      this.form = this.formBuilder.group({
+        tareId: [''],
+        tareNombre: ['',Validators.required],
+        tareDescripcion: ['',Validators.required],
+        tareUnidadMedida: ['',Validators.required],
+        tareCantidad: ['',Validators.required],
+        tareFechaAlta: [''],
+        tareBorrado: [''],
+        tareCosto: ['']
     });
     this.tareaService.get().subscribe(
       (Tarea) => {

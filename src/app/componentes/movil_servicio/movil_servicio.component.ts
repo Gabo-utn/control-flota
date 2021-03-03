@@ -2,12 +2,16 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { MovilServicio } from 'src/app/modelo/movil_servicio';
-import { Servicio } from 'src/app/modelo/servicio';
-import { MovilServicioService } from 'src/app/servicios/movil_servicio.service';
-import { ServicioService } from 'src/app/servicios/servicio.service';
+
 import { ConfirmarComponent } from 'src/app/shared/confirmar/confirmar.component';
-import { DatosService } from 'src/app/shared/confirmar/datos/datos.service';
+
+import { MovilServicio } from 'src/app/modelo/movil-servicio';
+import { Servicio } from 'src/app/modelo/servicio';
+import { MovilServicioService } from 'src/app/servicios/movil-servicio.service';
+import { ServicioService } from 'src/app/servicios/servicio.service';
+
+import{GlobalService} from 'src/app/servicios/global.service'
+
 
 
 
@@ -24,49 +28,45 @@ export class MovilServicioComponent implements OnInit {
   movilservicios: MovilServicio[] = [];
   seleccionado = new MovilServicio();
 
-  columnas: string[] = ['moseId',
-    'moseMovildId',
-    'moseId ',
-    'moseSerld',
-    'mosePeriodo',
-    'moseFech',
-    'moseKM',
-    'acciones'];
-  dataSource = new MatTableDataSource<MovilServicio>();
-
-
   form = new FormGroup({});
   mostrarFormulario = false;
 
   servicios: Servicio[] = [];
   idAux: number = -1;
 
+  columnas: string[] = [
+    'servNombre',
+    'mosePeriodo',
+    'moseKM',
+    'acciones'];
+  dataSource = new MatTableDataSource<MovilServicio>();
+
 
   constructor(private MovilServicioService: MovilServicioService,
     private servicioService: ServicioService,
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
-    public datosService: DatosService) { }
+    public global: GlobalService) { }
 
 
   ngOnInit(): void {
 
     this.form = this.formBuilder.group({
       moseId: [''],
-      moseGrupId: [''],
+      moseMoviId: [''],
       moseServId: ['', Validators.required],
       mosePeriodo: [''],
       moseKM: [''],
       moseFecha: [''],
       moseBorrado: [''],
       moseFechaAlta: [''],
-      moseNombre: [''],
+      servNombre: [''],
 
     });
 
-    this.MovilServicioService.get(`moseGrupId=${this.grupId}`).subscribe(
+    this.MovilServicioService.get(`moseMoviId=${this.grupId}`).subscribe(
       (MovilServicio) => {
-        this.datosService.movser = MovilServicio;
+        this.global.itemsMov = MovilServicio;
         this.actualizarTabla();
       }
     );
@@ -79,13 +79,13 @@ export class MovilServicioComponent implements OnInit {
   }
 
   actualizarTabla() {
-    this.dataSource.data = this.datosService.mover.filter(borrado => borrado.moseBorrado==false);
+    this.dataSource.data = this.global.itemsMov.filter(borrado => borrado.moseBorrado==false);
   }
 
   agregar() {
     this.idAux--;
     this.seleccionado = new MovilServicio();
-    this.seleccionado.movId = this.idAux;
+    this.seleccionado.moseId = this.idAux;
 
     this.form.setValue(this.seleccionado)
 
@@ -100,7 +100,7 @@ export class MovilServicioComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
 
       if(result){
-        fila.movBorrado = true;
+        fila.moseBorrado = true;
         this.actualizarTabla();
       }
 
@@ -123,16 +123,16 @@ export class MovilServicioComponent implements OnInit {
 
     Object.assign(this.seleccionado, this.form.value);
 
-    this.seleccionado.moseNombre = this.servicios.find(servicio => servicio.moseId == this.seleccionado.movmoseId)!.moseNombre;
-    this.seleccionado.mosePeriodo = this.servicios.find(servicio  => servicio.moseId == this.seleccionado.movmoseId)!.mosePeriodo;
-    this.seleccionado.moseKM = this.servicios.find(servicio  => servicio.moseId == this.seleccionado.movmoseId)!.moseKM;
-    this.seleccionado.moseFecha = this.servicios.find(servicio  => servicio.moseId == this.seleccionado.movmoseId)!.moseFecha;
+    this.seleccionado.servNombre = this.servicios.find(servicio => servicio.servId == this.seleccionado.moseId)!.servNombre;
+    this.seleccionado.mosePeriodo = this.servicios.find(servicio  => servicio.servId == this.seleccionado.moseId)!.servPeriodo;
+    this.seleccionado.moseKM = this.servicios.find(servicio  => servicio.servId == this.seleccionado.moseId)!.servKM;
+    this.seleccionado.moseFecha = this.servicios.find(servicio  => servicio.servId == this.seleccionado.moseId)!.servFecha;
 
     if(this.seleccionado.moseId > 0){
-      const elemento = this.moseservicios.find(mover => mover.movId == this.seleccionado.moseId);
-      this.movilservicios.splice(this.seleccionado.movId, 1, elemento!);
+      const elemento = this.movilservicios.find(itemsMov => itemsMov.moseId == this.seleccionado.moseId);
+      this.movilservicios.splice(this.seleccionado.moseId, 1, elemento!);
     }else{
-      this.datosService.mover.push(this.seleccionado);
+      this.global.itemsMov.push(this.seleccionado);
     }
 
     this.mostrarFormulario=false;

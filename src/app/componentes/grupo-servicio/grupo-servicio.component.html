@@ -1,20 +1,23 @@
-<br>
-        <div [hidden]="mostrarFormulario">
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<div style="background-color:#e7e6e1;"class="mat-elevation-z8"   >
 
-                <mat-text-column name="moseId" headerText="ID"></mat-text-column>
-                <mat-text-column name="servNombre" headerText="Nombre"></mat-text-column>
-                <mat-text-column name="mosePeriodo" headerText="Periodo"></mat-text-column>
-                <mat-text-column name="moseKM" headerText="KM"></mat-text-column>
-                <mat-text-column name="moseFecha" headerText="Fecha"></mat-text-column>
+        <div [hidden]="mostrarFormulario"  >
+
+
+            <table mat-table  [dataSource]="dataSource" style="width: 100%; "  >
+
+
+                  <mat-text-column name="servNombre" headerText="Nombre"></mat-text-column >
+                  <mat-text-column name="grusPeriodo" headerText="Periodo"></mat-text-column>
+                  <mat-text-column name="grusKM" headerText="KM"></mat-text-column>
+                  <mat-text-column name="grusFecha" headerText="Fecha"></mat-text-column>
 
                 <ng-container matColumnDef="acciones">
                     <th mat-header-cell *matHeaderCellDef> </th>
-                    <td mat-cell *matCellDef="let itemMov">
-                        <button mat-raised-button color="accent" title="editar" (click)="editar(itemMov)">
+                    <td mat-cell *matCellDef="let itemServ">
+                        <button mat-raised-button color="black" title="editar" (click)="editar(itemServ)">
                             Editar
                         </button>
-                        <button style="margin-left: 0.6cm;" mat-raised-button color="green" title="borrar" (click)="delete(itemMov)">
+                        <button style="margin-left: 0.6cm;" mat-raised-button color="green" title="borrar" (click)="delete(itemServ)">
                             Borrar
                         </button>
                     </td>
@@ -31,19 +34,25 @@
             <div style="text-align: center;">
                 <button mat-raised-button color="primary" (click)="agregar()">Agregar</button>
             </div>
+
         </div>
 
-        <div *ngIf="mostrarFormulario">
-
-            <form [formGroup]="form">
 
 
+        <!--formulario para agregar un servicio-->
+        <div *ngIf="mostrarFormulario" >
 
-                <div style="text-align: center;">
+            <form [formGroup]="form" >
+
+                <div [hidden]="true">
+                    <input type="text" formControlName="grusGrupId" [(ngModel)]="grupId">
+                </div>
+
+                <div style="text-align: center;" >
                     <h2>Seleccione un servicio</h2>
-                    <mat-form-field appearance="outline">
+                    <mat-form-field appearance="outline" >
                         <mat-label>Servicio</mat-label>
-                        <mat-select formControlName="moseMoviId" required>
+                        <mat-select formControlName="grusServId" required>
                             <mat-option *ngFor="let servicio of servicios" [value]="servicio.servId">
                                 {{servicio.servNombre}}
                             </mat-option>
@@ -59,4 +68,7 @@
                 </div>
             </form>
 
+
         </div>
+
+</div>

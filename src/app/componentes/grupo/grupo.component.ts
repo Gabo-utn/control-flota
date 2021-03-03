@@ -1,16 +1,17 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Grupo } from './../../modelo/grupo';
-
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+
 import { GrupoService } from 'src/app/servicios/grupo.service';
 import { ConfirmarComponent } from 'src/app/shared/confirmar//confirmar.component';
-import { DatosService } from 'src/app/shared/confirmar/datos/datos.service';
-import { GrupoServicioService } from 'src/app/servicios/grupo_servicio.service';
-import { GrupoServicioComponent } from '../grupo_servicio/grupo_servicio.component';
+import{GlobalService}from 'src/app/servicios/global.service';
+import { GrupoServicioService } from 'src/app/servicios/grupo-servicio.service';
+import { GrupoServicioComponent } from '../grupo-servicio/grupo-servicio.component';
 
 @Component({
   selector: 'app-grupo',
@@ -20,10 +21,13 @@ import { GrupoServicioComponent } from '../grupo_servicio/grupo_servicio.compone
 export class GrupoComponent implements OnInit,AfterViewInit {
   items: Grupo[] = [];
   seleccionado = new Grupo();
-  columnas: string[] = ['grupId', 'grupNombre', 'grupDescripcion', 'acciones'];
+
+  columnas: string[] = [ 'grupNombre', 'grupDescripcion', 'acciones'];
   form = new FormGroup({});
+
   mostrarFormulario = false;
   dataSource= new MatTableDataSource<Grupo>();
+
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) tabla: MatTable<Grupo> | undefined;
@@ -32,7 +36,7 @@ export class GrupoComponent implements OnInit,AfterViewInit {
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
     public gsService: GrupoServicioService,
-    public datosService: DatosService) { }
+    private global:GlobalService) { }
 
 
 
@@ -46,7 +50,7 @@ export class GrupoComponent implements OnInit,AfterViewInit {
     this.form = this.formBuilder.group({
       grupId: [''],
       grupDescripcion: ['', Validators.required],
-      grupNombre:['', Validators.required],
+      grupNombre:['',Validators.required],
       grupBorrado: [''],
       grupFechaAlta: ['']
     });
@@ -56,6 +60,7 @@ export class GrupoComponent implements OnInit,AfterViewInit {
         this.actualizarTabla();
       }
     )
+    debugger
   }
   mostrarGrupo():Boolean{
     if(this.seleccionado.grupId){
@@ -65,11 +70,13 @@ export class GrupoComponent implements OnInit,AfterViewInit {
     }
   }
   actualizarGS(id : number){
-    this.datosService.gruser.forEach( (dato) => { dato.grusServId = id;
+    this.global.itemsServ.forEach( (dato) => { dato.grusServId = id;
       if(dato.grusBorrado){
         this.gsService.delete(dato.grusId).subscribe();
+
       }else if(dato.grusId < 0){
         this.gsService.post(dato).subscribe();
+
       }else (dato.grusId > 0 )
         this.gsService.put(dato).subscribe();
       }
@@ -152,8 +159,7 @@ export class GrupoComponent implements OnInit,AfterViewInit {
           this.items.push(Grupo);
           this.actualizarGS(Grupo.grupId);
 
-          //this.mostrarFormulario = false;
-          //this.actualizarTabla();
+
         });
 
     }

@@ -2,19 +2,18 @@
         <div [hidden]="mostrarFormulario">
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-                <mat-text-column name="grusId" headerText="ID"></mat-text-column>
-                <mat-text-column name="servNombre" headerText="Nombre"></mat-text-column>
-                <mat-text-column name="grusPeriodo" headerText="Periodo"></mat-text-column>
-                <mat-text-column name="grusKM" headerText="KM"></mat-text-column>
-                <mat-text-column name="grusFecha" headerText="Fecha"></mat-text-column>
+                <mat-text-column name="setaServId" headerText="ID Servicio"></mat-text-column>
+                <mat-text-column name="setaTareId" headerText="ID Tarea"></mat-text-column>
+                <mat-text-column name="tareNombre" headerText="Nombre"></mat-text-column>
+
 
                 <ng-container matColumnDef="acciones">
                     <th mat-header-cell *matHeaderCellDef> </th>
-                    <td mat-cell *matCellDef="let gruser">
-                        <button mat-raised-button color="accent" title="editar" (click)="editar(gruser)">
+                    <td mat-cell *matCellDef="let servicio-tarea">
+                        <button mat-raised-button color="black" title="editar" (click)="editar(servicio-tarea)">
                             Editar
                         </button>
-                        <button style="margin-left: 0.6cm;" mat-raised-button color="green" title="borrar" (click)="delete(gruser)">
+                        <button style="margin-left: 0.2cm;" mat-raised-button color="warn" title="borrar" (click)="delete(servicio-tarea)">
                             Borrar
                         </button>
                     </td>
@@ -38,16 +37,15 @@
             <form [formGroup]="form">
 
                 <div [hidden]="true">
-                    <input type="text" formControlName="grusGrupId" [(ngModel)]="grupId">
+                    <input type="text" formControlName="setaServId" [(ngModel)]="servId">
                 </div>
-
                 <div style="text-align: center;">
-                    <h2>Seleccione un servicio</h2>
+                    <h2>Seleccione una tarea</h2>
                     <mat-form-field appearance="outline">
-                        <mat-label>Servicio</mat-label>
-                        <mat-select formControlName="grusServId" required>
-                            <mat-option *ngFor="let servicio of servicios" [value]="servicio.servId">
-                                {{servicio.servNombre}}
+                        <mat-label>Tarea</mat-label>
+                        <mat-select formControlName="setaTareId" required>
+                            <mat-option *ngFor="let tarea of tareas" [value]="tarea.tareId">
+                                {{tarea.tareNombre}}
                             </mat-option>
                         </mat-select>
                         <mat-error>Selecciona una opcion valida</mat-error>

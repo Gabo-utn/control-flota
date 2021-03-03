@@ -1,21 +1,21 @@
-import { findLast } from '@angular/compiler/src/directive_resolver';
-import { Component, Input, OnInit } from '@angular/core';
+
+import { Component, Input, OnInit,ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { ServicioTarea } from 'src/app/modelo/servicio_tarea';
-import { Tarea } from 'src/app/modelo/tarea';
-import { ServicioTareaService } from 'src/app/servicios/servicio_tarea';
-import { TareaService } from 'src/app/servicios/tarea.service';
-import { ConfirmarComponent } from 'src/app/shared/confirmar/confirmar.component';
-import { DatosService } from 'src/app/shared/confirmar/datos/datos.service';
 
-
+import { ConfirmarComponent } from '../../shared/confirmar/confirmar.component';
+import { GlobalService } from '../../servicios/global.service';
+import { ServicioTareaService } from '../../servicios/servicio-tarea.service';
+import { ServicioTarea } from '../../modelo/servicio-tarea'
+import { Tarea } from '../../modelo/tarea';
 
 @Component({
   selector: 'app-servicio-tarea',
-  templateUrl: './servicio_tarea.component.html',
-  styleUrls: ['./servicio_tarea.component.css']
+  templateUrl: './servicio-tarea.component.html',
+  styleUrls: ['./servicio-tarea.component.css']
 })
 export class ServicioTareaComponent implements OnInit {
 
@@ -24,7 +24,7 @@ export class ServicioTareaComponent implements OnInit {
   serviciotareas: ServicioTarea[] = [];
   seleccionado = new ServicioTarea();
 
-  columnas: string[] = ['tareNombre', 'setaServId', 'setaTareId', 'acciones'];
+  columnas: string[] = ['tareNombre',  'acciones'];
   dataSource = new MatTableDataSource<ServicioTarea>();
 
 
@@ -35,11 +35,12 @@ export class ServicioTareaComponent implements OnInit {
   idAux: number = -1;
 
 
-  constructor(private servicioTareaService: ServicioTareaService,
+  constructor(
+    public global:GlobalService,
     private tareaService: TareaService,
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
-    public datosService: DatosService) { }
+    private servicioTareaService:ServicioTareaService) { }
 
 
   ngOnInit(): void {
@@ -47,7 +48,7 @@ export class ServicioTareaComponent implements OnInit {
     this.form = this.formBuilder.group({
       setaId: [''],
       setaServId: [''],
-      setaTareId: ['', Validators.required],
+      setaTareId: [''],
       setaBorrado: [''],
       setaFechaAlta: [''],
       tareNombre: [''],
@@ -55,20 +56,20 @@ export class ServicioTareaComponent implements OnInit {
 
     this.servicioTareaService.get(`setaServId=${this.servId}`).subscribe(
       (servicioTarea) => {
-        this.datosService.sertar = servicioTarea;
+        this.global.items = servicioTarea;
         this.actualizarTabla();
       }
     );
 
     this.tareaService.get().subscribe(
-      (tarea) => {
-        this.tareas = tarea;
+      (Tarea) => {
+        this.tareas = Tarea;
       }
     )
   }
 
   actualizarTabla() {
-    this.dataSource.data = this.datosService.sertar.filter(borrado => borrado.setaBorrado==false);
+    this.dataSource.data = this.global.items.filter(borrado => borrado.setaBorrado==false);
   }
 
   agregar() {
@@ -116,10 +117,10 @@ export class ServicioTareaComponent implements OnInit {
     this.seleccionado.tareNombre = this.tareas.find(tarea => tarea.tareId == this.seleccionado.setaTareId)!.tareNombre;
 
     if(this.seleccionado.setaId > 0){
-      const elemento = this.serviciotareas.find(sertar => sertar.setaId == this.seleccionado.setaId);
+      const elemento = this.serviciotareas.find(item => item.setaId == this.seleccionado.setaId);
       this.serviciotareas.splice(this.seleccionado.setaId, 1, elemento!);
     }else{
-      this.datosService.sertar.push(this.seleccionado);
+      this.global.items.push(this.seleccionado);
     }
 
     this.mostrarFormulario=false;

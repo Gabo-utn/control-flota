@@ -1,15 +1,18 @@
-<br>
 <div style="width: 100%;" class="mat-elevation-z8">
-  <mat-card>
+
+  <br>
+
+    <mat-card style="background-color:#e7e6e1;">
+           <div [hidden]=mostrarFormulario>
             <mat-form-field>
-                <mat-label>Filtrar</mat-label>
+                <mat-label>Busqueda de Grupo</mat-label>
                 <input matInput (keyup)="filter($event)" placeholder="..." #input>
             </mat-form-field>
             &nbsp;&nbsp;
             <button mat-raised-button (click)="agregar()" style="float:right;">Agregar Grupo</button>
 
 
-            <table mat-table [dataSource]="dataSource" matSort>
+            <table mat-table [dataSource]="dataSource" matSort style="overflow-x:auto;width: 100%">
                 <mat-text-column name="grupId" headerText="ID!"></mat-text-column>
 
                 <ng-container matColumnDef="grupDescripcion">
@@ -46,61 +49,66 @@
                     <td class="mat-cell" colspan="4">No hay datos para el filtro "{{input.value}}"</td>
                 </tr>
             </table>
+            <mat-paginator [pageSizeOptions]="[4, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+
+            <!--Id,Fecha alta,descripcion y nombre-->
            <div *ngIf="mostrarFormulario">
+            <mat-card>
+              <mat-grid-list cols="2" rowHeight="4:2">
+                <mat-grid-tile
+                  [colspan]="1"
+                  [rowspan]="1">
+
+                  <div style="width:100%;">
+                      <form [formGroup]="form">
 
 
-            <form [formGroup]="form">
-                <div>
-                    <div>
-                        <label>Id: </label>
-                        <ul>
-                            <li *ngIf="this.form.value.grupId">{{this.form.value.grupId}}</li>
-                            <li *ngIf="!this.form.value.grupId">Id aun no inicializado</li>
-                        </ul>
+                       <br>
+                        <div>
+                          <div>
+                            <mat-form-field appearance="outline" style="width: 50%">
+                                <mat-label>Descripcion</mat-label>
+                                <input matInput formControlName="grupDescripcion" required>
+                                <mat-error>El campo no puede ser vacio</mat-error>
+                            </mat-form-field>
+                          </div>
+                          <div>
+                            <mat-form-field appearance="outline" style="width: 50%">
+                              <mat-label>Nombre</mat-label>
+                              <input matInput formControlName="grupNombre" required>
+                                <mat-error>El campo no puede ser vacio</mat-error>
+                              </mat-form-field>
+                          </div>
+                        </div>
+
+                        <div>
+                          <button mat-raised-button color="primary" (click)="guardar()">Guardar</button>
+                             &nbsp;
+                             <button mat-raised-button (click)="cancelar()">Cancelar</button>
+                         </div>
+                      </form>
                     </div>
 
-                    <div>
-                        <label>Fecha de Alta</label>
-                        <ul>
-                            <li *ngIf="this.form.value.grupFechaAlta">{{this.form.value.grupFechaAlta | date:
-                                'dd-LL-yyyy'}}
-                            </li>
-                            <li *ngIf="!this.form.value.grupFechaAlta">Fecha aun no inicializada</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <br>
-                <div>
-                    <div>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Descripcion</mat-label>
-                            <input matInput formControlName="grupDescripcion" required>
-                            <mat-error>El campo no puede ser vacio</mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Nombre</mat-label>
-                            <input matInput formControlName="grupNombre" required>
-                            <mat-error>El campo no puede ser vacio</mat-error>
-                        </mat-form-field>
-                    </div>
+                </mat-grid-tile>
 
 
-                </div>
+                <mat-grid-tile
+                    [colspan]="1"
+                    [rowspan]="1">
+                      <div *ngIf="mostrarFormulario">
+                        <div style="width:150%;" >
+                          <app-grupo-servicio> </app-grupo-servicio>
+                        </div>
+                      </div>
+                </mat-grid-tile>
+              </mat-grid-list>
+            </mat-card>
 
-                <div>
-                    <button mat-raised-button color="primary" (click)="guardar()">Guardar</button>
-                    &nbsp;
-                    <button mat-raised-button (click)="cancelar()">Cancelar</button>
-                </div>
-            </form>
-          </div>
-          <div *ngIf="mostrarFormulario">
-          <app-grupo-servicio>
-          </app-grupo-servicio>
-          </div>
-  </mat-card>
+
+
+
+
+
 </div>
 

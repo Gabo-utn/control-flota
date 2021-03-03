@@ -1,20 +1,23 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { GrupoServicio } from 'src/app/modelo/grupo_servicio';
+
+import { GrupoServicio } from 'src/app/modelo/grupo-servicio';
 import { Servicio } from 'src/app/modelo/servicio';
-import { GrupoServicioService } from 'src/app/servicios/grupo_servicio.service';
+import { GrupoServicioService } from 'src/app/servicios/grupo-servicio.service';
 import { ServicioService } from 'src/app/servicios/servicio.service';
+
 import { ConfirmarComponent } from 'src/app/shared/confirmar/confirmar.component';
-import { DatosService } from 'src/app/shared/confirmar/datos/datos.service';
+import { GlobalService } from 'src/app/servicios/global.service';
 
 
 
 @Component({
   selector: 'app-grupo-servicio',
-  templateUrl: './grupo_servicio.component.html',
-  styleUrls: ['./grupo_servicio.component.css']
+  templateUrl: './grupo-servicio.component.html',
+  styleUrls: ['./grupo-servicio.component.css']
 })
 export class GrupoServicioComponent implements OnInit {
 
@@ -24,7 +27,7 @@ export class GrupoServicioComponent implements OnInit {
   gruposervicios: GrupoServicio[] = [];
   seleccionado = new GrupoServicio();
 
-  columnas: string[] = ['grusId', 'servNombre', 'grusPeriodo', 'grusKM', 'grusFecha','acciones'];
+  columnas: string[] = ['servNombre', 'grusPeriodo', 'grusKM', 'acciones'];
   dataSource = new MatTableDataSource<GrupoServicio>();
 
 
@@ -39,7 +42,7 @@ export class GrupoServicioComponent implements OnInit {
     private servicioService: ServicioService,
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
-    public datosService: DatosService) { }
+    public global:GlobalService) { }
 
 
   ngOnInit(): void {
@@ -47,7 +50,7 @@ export class GrupoServicioComponent implements OnInit {
     this.form = this.formBuilder.group({
       grusId: [''],
       grusGrupId: [''],
-      grusServId: ['', Validators.required],
+      grusServId: [''],
       grusPeriodo: [''],
       grusKM: [''],
       grusFecha: [''],
@@ -58,7 +61,7 @@ export class GrupoServicioComponent implements OnInit {
 
     this.grupoServicioService.get(`grusGrupId=${this.grupId}`).subscribe(
       (grupoServicio) => {
-        this.datosService.gruser = grupoServicio;
+        this.global.itemsServ = grupoServicio;
         this.actualizarTabla();
       }
     );
@@ -71,7 +74,7 @@ export class GrupoServicioComponent implements OnInit {
   }
 
   actualizarTabla() {
-    this.dataSource.data = this.datosService.gruser.filter(borrado => borrado.grusBorrado==false);
+    this.dataSource.data = this.global.itemsServ.filter(borrado => borrado.grusBorrado == false);
   }
 
   agregar() {
@@ -91,7 +94,7 @@ export class GrupoServicioComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
 
-      if(result){
+      if (result) {
         fila.grusBorrado = true;
         this.actualizarTabla();
       }
@@ -116,18 +119,18 @@ export class GrupoServicioComponent implements OnInit {
     Object.assign(this.seleccionado, this.form.value);
 
     this.seleccionado.servNombre = this.servicios.find(servicio => servicio.servId == this.seleccionado.grusServId)!.servNombre;
-    this.seleccionado.grusPeriodo = this.servicios.find(servicio  => servicio.servId == this.seleccionado.grusServId)!.servPeriodo;
-    this.seleccionado.grusKM = this.servicios.find(servicio  => servicio.servId == this.seleccionado.grusServId)!.servKM;
-    this.seleccionado.grusFecha = this.servicios.find(servicio  => servicio.servId == this.seleccionado.grusServId)!.servFecha;
+    this.seleccionado.grusPeriodo = this.servicios.find(servicio => servicio.servId == this.seleccionado.grusServId)!.servPeriodo;
+    this.seleccionado.grusKM = this.servicios.find(servicio => servicio.servId == this.seleccionado.grusServId)!.servKM;
+    this.seleccionado.grusFecha = this.servicios.find(servicio => servicio.servId == this.seleccionado.grusServId)!.servFecha;
 
-    if(this.seleccionado.grusId > 0){
-      const elemento = this.gruposervicios.find(gruser => gruser.grusId == this.seleccionado.grusId);
+    if (this.seleccionado.grusId > 0) {
+      const elemento = this.gruposervicios.find(itemServ => itemServ.grusId == this.seleccionado.grusId);
       this.gruposervicios.splice(this.seleccionado.grusId, 1, elemento!);
-    }else{
-      this.datosService.gruser.push(this.seleccionado);
+    } else {
+      this.global.itemsServ.push(this.seleccionado);
     }
 
-    this.mostrarFormulario=false;
+    this.mostrarFormulario = false;
     this.actualizarTabla();
   }
   cancelar() {
