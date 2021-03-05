@@ -22,7 +22,7 @@ import{GlobalService} from 'src/app/servicios/global.service'
 })
 export class MovilServicioComponent implements OnInit {
 
-  @Input() grupId: number = 0;
+  @Input() moviId: number = 0;
 
 
   movilservicios: MovilServicio[] = [];
@@ -64,7 +64,7 @@ export class MovilServicioComponent implements OnInit {
 
     });
 
-    this.MovilServicioService.get(`moseMoviId=${this.grupId}`).subscribe(
+    this.MovilServicioService.get(`moseMoviId=${this.moviId}`).subscribe(
       (MovilServicio) => {
         this.global.itemsMov = MovilServicio;
         this.actualizarTabla();
@@ -122,18 +122,10 @@ export class MovilServicioComponent implements OnInit {
     }
 
     Object.assign(this.seleccionado, this.form.value);
+    this.global.itemsMov = this.global.itemsMov.filter(x => x.moseId != this.seleccionado.moseId);
+    this.global.itemsMov.push(this.seleccionado);
 
-    this.seleccionado.servNombre = this.servicios.find(servicio => servicio.servId == this.seleccionado.moseId)!.servNombre;
-    this.seleccionado.mosePeriodo = this.servicios.find(servicio  => servicio.servId == this.seleccionado.moseId)!.servPeriodo;
-    this.seleccionado.moseKM = this.servicios.find(servicio  => servicio.servId == this.seleccionado.moseId)!.servKM;
-    this.seleccionado.moseFecha = this.servicios.find(servicio  => servicio.servId == this.seleccionado.moseId)!.servFecha;
 
-    if(this.seleccionado.moseId > 0){
-      const elemento = this.movilservicios.find(itemsMov => itemsMov.moseId == this.seleccionado.moseId);
-      this.movilservicios.splice(this.seleccionado.moseId, 1, elemento!);
-    }else{
-      this.global.itemsMov.push(this.seleccionado);
-    }
 
     this.mostrarFormulario=false;
     this.actualizarTabla();
