@@ -1,6 +1,8 @@
 <br>
 <div style="width: 100%;" class="mat-elevation-z8">
-  <mat-card style="background-color:#e7e6e1;">
+
+
+        <div [hidden]="mostrarFormulario">
             <mat-form-field>
                 <mat-label>Filtrar</mat-label>
                 <input matInput (keyup)="filter($event)" placeholder="..." #input>
@@ -55,30 +57,14 @@
                     <td class="mat-cell" colspan="4">No hay datos para el filtro "{{input.value}}"</td>
                 </tr>
             </table>
-           <div *ngIf="mostrarFormulario">
+        </div>
+          <div *ngIf="mostrarFormulario">
 
             <form [formGroup]="form">
-                <div>
-                    <div>
-                        <label>Id: </label>
-                        <ul>
-                            <li *ngIf="this.form.value.tareId">{{this.form.value.tareId}}</li>
-                            <li *ngIf="!this.form.value.tareId">Id aun no inicializado</li>
-                        </ul>
-                    </div>
 
-                    <div>
-                        <label>Fecha de Alta</label>
-                        <ul>
-                            <li *ngIf="this.form.value.tareFechaAlta">{{this.form.value.tareFechaAlta | date:
-                                'dd-LL-yyyy'}}
-                            </li>
-                            <li *ngIf="!this.form.value.tareFechaAlta">Fecha aun no inicializada</li>
-                        </ul>
-                    </div>
-                </div>
 
-                <br>
+
+
                 <div>
                     <div>
                         <mat-form-field appearance="outline">
@@ -104,8 +90,11 @@
                     <button mat-raised-button (click)="cancelar()">Cancelar</button>
                 </div>
             </form>
-          </div>
 
-  </mat-card>
+      </div>
+
+
+
+
 </div>
 

@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 
 import { ApiService } from '../core/api-service';
 import { AppConfigService } from '../core/config.service';
-import { movil } from '../modelo/movil';
+import { Movil } from '../modelo/movil';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovilService
-extends ApiService<movil>{
+extends ApiService<Movil>{
   constructor(
     protected http: HttpClient,
     protected app: AppConfigService

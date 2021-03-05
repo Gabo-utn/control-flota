@@ -1,8 +1,6 @@
 
-import { Component, Input, OnInit,ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
 
-import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -11,6 +9,8 @@ import { GlobalService } from '../../servicios/global.service';
 import { ServicioTareaService } from '../../servicios/servicio-tarea.service';
 import { ServicioTarea } from '../../modelo/servicio-tarea'
 import { Tarea } from '../../modelo/tarea';
+import { TareaService } from 'src/app/servicios/tarea.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-servicio-tarea',

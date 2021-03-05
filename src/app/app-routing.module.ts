@@ -1,3 +1,4 @@
+import { MovilComponent } from './componentes/movil/movil.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { GrupoComponent } from './componentes/grupo/grupo.component';
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'grupos', component: GrupoComponent },
   { path: 'tarea', component: TareaComponent },
   { path: 'servicio', component: ServicioComponent },
+  {path:'movil',component:MovilComponent},
 ];
 
 
