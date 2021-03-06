@@ -118,17 +118,9 @@ export class GrupoServicioComponent implements OnInit {
 
     Object.assign(this.seleccionado, this.form.value);
 
-    this.seleccionado.servNombre = this.servicios.find(servicio => servicio.servId == this.seleccionado.grusServId)!.servNombre;
-    this.seleccionado.grusPeriodo = this.servicios.find(servicio => servicio.servId == this.seleccionado.grusServId)!.servPeriodo;
-    this.seleccionado.grusKM = this.servicios.find(servicio => servicio.servId == this.seleccionado.grusServId)!.servKM;
-    this.seleccionado.grusFecha = this.servicios.find(servicio => servicio.servId == this.seleccionado.grusServId)!.servFecha;
-
-    if (this.seleccionado.grusId > 0) {
-      const elemento = this.gruposervicios.find(itemServ => itemServ.grusId == this.seleccionado.grusId);
-      this.gruposervicios.splice(this.seleccionado.grusId, 1, elemento!);
-    } else {
-      this.global.itemsServ.push(this.seleccionado);
-    }
+    this.seleccionado.servNombre = this.servicios.find(serv => serv.servId == this.seleccionado.grusServId)!.servNombre;
+    this.global.itemsServ = this.global.itemsServ.filter(x => x.grusId != this.seleccionado.grusId);
+    this.global.itemsServ.push(this.seleccionado);
 
     this.mostrarFormulario = false;
     this.actualizarTabla();
