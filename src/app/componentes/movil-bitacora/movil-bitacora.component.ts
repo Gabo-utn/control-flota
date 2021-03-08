@@ -7,7 +7,7 @@ import { MovilBitacora } from '../../modelo/movil-bitacora';
 import { MovilBitacoraService } from '../../servicios/movil-bitacora.service';
 import { Servicio } from '../../modelo/servicio';
 import { ServicioService } from '../../servicios/servicio.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+
 @Component({
   selector: 'app-movil-bitacora',
   templateUrl: './movil-bitacora.component.html',
@@ -57,7 +57,7 @@ export class MovilBitacoraComponent implements OnInit {
       mobiBorrado: ['']
     });
 
-    this.movilBitacoraService.get(mobiMoviId=${this.moviId}).subscribe(
+    this.movilBitacoraService.get('mobiMoviId=${this.moviId}').subscribe(
       (movil) => {
         this.items = movil;
         this.actualizarTabla();
