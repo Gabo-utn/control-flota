@@ -36,7 +36,7 @@ import { ServicioComponent } from './componentes/servicio/servicio.component';
 import { ConfirmarComponent } from './shared/confirmar/confirmar.component';
 import { ServicioTareaComponent } from './componentes/servicio-tarea/servicio-tarea.component';
 import { GrupoServicioComponent } from './componentes/grupo-servicio/grupo-servicio.component';
-import { MovilServicioComponent } from './componentes/movil_servicio/movil_servicio.component';
+import { MovilServicioComponent } from './componentes/movil-servicio/movil-servicio.component';
 import { MovilComponent } from './componentes/movil/movil.component';
 import { BitacoraTareaComponent } from './componentes/bitacora-tarea/bitacora-tarea.component';
 import { MovilBitacoraComponent } from './componentes/movil-bitacora/movil-bitacora.component';

@@ -17,8 +17,8 @@ import{GlobalService} from 'src/app/servicios/global.service'
 
 @Component({
   selector: 'app-movil-servicio',
-  templateUrl: './movil_servicio.component.html',
-  styleUrls: ['./movil_servicio.component.css']
+  templateUrl: './movil-servicio.component.html',
+  styleUrls: ['./movil-servicio.component.css']
 })
 export class MovilServicioComponent implements OnInit {
 
