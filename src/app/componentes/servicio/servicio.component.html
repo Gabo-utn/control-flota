@@ -125,7 +125,7 @@
 
 
       <div *ngIf="mostrarFormulario">
-              <app-servicio-tarea>
+              <app-servicio-tarea [servId]="seleccionado.servId" >
               </app-servicio-tarea>
       </div>
   </mat-card>
