@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 
+
 import { GrupoServicio } from 'src/app/modelo/grupo-servicio';
 import { Servicio } from 'src/app/modelo/servicio';
 import { GrupoServicioService } from 'src/app/servicios/grupo-servicio.service';
@@ -74,7 +75,8 @@ export class GrupoServicioComponent implements OnInit {
   }
 
   actualizarTabla() {
-    this.dataSource.data = this.global.itemsServ.filter(borrado => borrado.grusBorrado == false);
+    this.dataSource.data = this.global.itemsServ.filter(borrado => borrado.grusBorrado == 0);
+   
   }
 
   agregar() {
@@ -95,7 +97,7 @@ export class GrupoServicioComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
 
       if (result) {
-        fila.grusBorrado = true;
+        fila.grusBorrado = 1;
         this.actualizarTabla();
       }
 

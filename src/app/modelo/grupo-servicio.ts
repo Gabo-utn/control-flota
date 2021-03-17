@@ -6,7 +6,7 @@ export class GrupoServicio {
   grusKM : number = 0;
   grusFecha : boolean = false;
   grusFechaAlta : Date = new Date();
-  grusBorrado : boolean = false;
+  grusBorrado :  number = 0;
 
   servNombre : string = "";
 }

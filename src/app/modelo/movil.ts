@@ -1,10 +1,11 @@
 export class Movil{
 moviId:number= 0;//relacion 1:1 con AVL_Estructura.dbo.Movil
 moviModoFecha:Date = new Date();      //en teoria copia lo del ultimo odometro;
-moviModoOdometro:Date = new Date();
+moviModoOdometro: number = 0;
 servFechaAlta: Date = new Date();
 servBorrado = false;
 moviBorrado: number = 0;
+
 patente: string = '';
 descripcion:string = '';
 dependencia: string = '';
@@ -14,6 +15,7 @@ modelo: string = '';
 anio: number = 0;
 chasis: number = 0;
 tipoMovil: string = '';
+
 color: string = '';
 seguro: string = '';
 poliza: string = '';

@@ -4,4 +4,7 @@ export class MovilGrupo {
     mogrGrupId: number = 0;
     mogrFechaAlta: Date = new Date();
     mogrBorrado: number = 0;
+
+    grupNombre: string = '';
+    grupDescripcion: string = '';
 }

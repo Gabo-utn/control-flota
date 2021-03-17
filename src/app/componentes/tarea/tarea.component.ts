@@ -28,6 +28,9 @@ export class TareaComponent implements OnInit {
                          'tareCosto',
                          'acciones'];
   form = new FormGroup({});
+ 
+  label='';
+ 
   mostrarFormulario = false;
   dataSource= new MatTableDataSource<Tarea>();
 
@@ -35,7 +38,8 @@ export class TareaComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) tabla: MatTable<Tarea> | undefined;
 
-  constructor(private tareaService: TareaService,
+  constructor(
+    private tareaService: TareaService,
     private formBuilder: FormBuilder,
     public dialog: MatDialog) { }
 
@@ -147,8 +151,7 @@ export class TareaComponent implements OnInit {
     });
   }
 
-
-
+ 
 
 
 }

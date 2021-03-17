@@ -7,8 +7,13 @@ import { ConfirmarComponent } from '../../shared/confirmar/confirmar.component';
 import { MovilService } from '../../servicios/movil.service';
 import { Movil } from '../../modelo/movil';
 
+import { MovilGrupoService } from '../../servicios/movil-grupo';
+import { MovilGrupo} from 'src/app/modelo/movil-grupo';
+
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { AvisoComponent } from 'src/app/shared/aviso/aviso/aviso.component'
+
 
 
 @Component({
@@ -25,6 +30,12 @@ export class MovilComponent implements OnInit {
   dataSource = new MatTableDataSource<Movil>();
 
   form = new FormGroup({});
+  
+  mostrarFormularioAgregarMovil = false;
+  mostrarFormularioMantenimiento = false;
+  mostrarFormularioEditarMovil = false;
+  editarMovilF = false;
+
 
   mostrarFormulario = false;
 
@@ -53,7 +64,14 @@ export class MovilComponent implements OnInit {
       descripcion: [''],
       dependencia: [''],
       marca: [''],
-      modelo: ['']
+      modelo: [''],
+      anio: [''],
+      chasis: [''],
+      numeromovil: [''],
+      color: [''],
+      seguro: [''],
+      poliza: [''],
+      numeromotor: ['']
     })
 
     this.movilServicio.get("activo=1").subscribe(
@@ -79,26 +97,58 @@ export class MovilComponent implements OnInit {
   verMas(seleccionado:Movil) {
     this.mostrarFormulario = true;
     this.seleccionado = seleccionado;
+
+   // this.MovilGrupoService.get(`mogrMoviId=${this.seleccionado.moviId}`).subscribe(
+     // (grupos) => {
+       //this.gruposMovil = grupos;
   }
 
   agregar() {
+    this.mostrarFormularioAgregarMovil = true;
 
   }
 
   delete(row: Movil) {
+    const dialogRef = this.matDialog.open(ConfirmarComponent);
+
+    dialogRef.afterClosed().subscribe(
+      result => {
+
+      console.log(`Dialog result: ${result}`);
+
+      if (result) {
+
+        //this.seleccionado = Movil;
+
+        this.movilServicio.delete(this.seleccionado.moviId).subscribe();
+
+        this.actualizarTabla();
+
+      }else{
+        this.cancelar();
+      }
+    });
 
   }
 
   edit(seleccionado: Movil) {
+    this.mostrarFormularioEditarMovil = true;
+    this.seleccionado = seleccionado;
 
   }
 
   guardar() {
 
   }
+  editarMovil(){
+    this.editarMovilF = true;
+  }
 
   cancelar() {
-    this.mostrarFormulario = false;
+    this.mostrarFormularioAgregarMovil = false;
+    this.mostrarFormularioMantenimiento = false;
+    this.mostrarFormularioEditarMovil = false;
+    this.editarMovilF = false;
   }
 
   actualizarMantenimiento(moviId: number) {

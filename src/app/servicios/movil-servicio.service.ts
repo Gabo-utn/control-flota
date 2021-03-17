@@ -14,6 +14,6 @@ export class MovilServicioService  extends ApiService<MovilServicio>{
     protected http: HttpClient,
     protected app: AppConfigService
   ) {
-    super("movil_servicio", http, app);
+    super("movil-servicio", http, app);
   }
 }

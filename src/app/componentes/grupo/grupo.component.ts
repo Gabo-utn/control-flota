@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { Grupo } from './../../modelo/grupo';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -12,12 +11,15 @@ import { ConfirmarComponent } from 'src/app/shared/confirmar//confirmar.componen
 import{GlobalService}from 'src/app/servicios/global.service';
 import { GrupoServicioService } from 'src/app/servicios/grupo-servicio.service';
 import { GrupoServicioComponent } from '../grupo-servicio/grupo-servicio.component';
+import { Grupo } from './../../modelo/grupo';
+import { AvisoComponent } from 'src/app/shared/aviso/aviso/aviso.component';
 
 @Component({
   selector: 'app-grupo',
   templateUrl: './grupo.component.html',
   styleUrls: ['./grupo.component.css']
 })
+
 export class GrupoComponent implements OnInit,AfterViewInit {
   items: Grupo[] = [];
   seleccionado = new Grupo();
@@ -28,6 +30,8 @@ export class GrupoComponent implements OnInit,AfterViewInit {
   mostrarFormulario = false;
   dataSource= new MatTableDataSource<Grupo>();
 
+  label = '';
+
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) tabla: MatTable<Grupo> | undefined;
@@ -35,7 +39,7 @@ export class GrupoComponent implements OnInit,AfterViewInit {
   constructor(private grupoService: GrupoService,
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
-    public gsService: GrupoServicioService,
+    public grupoServicio: GrupoServicioService,
     private global:GlobalService) { }
 
 
@@ -72,13 +76,13 @@ export class GrupoComponent implements OnInit,AfterViewInit {
   actualizarGS(id : number){
     this.global.itemsServ.forEach( (dato) => { dato.grusServId = id;
       if(dato.grusBorrado){
-        this.gsService.delete(dato.grusId).subscribe();
+        this.grupoServicio.delete(dato.grusId).subscribe();
 
       }else if(dato.grusId < 0){
-        this.gsService.post(dato).subscribe();
+        this.grupoServicio.post(dato).subscribe();
 
       }else (dato.grusId > 0 )
-        this.gsService.put(dato).subscribe();
+        this.grupoServicio.put(dato).subscribe();
       }
    );
     this.actualizarTabla();
@@ -96,6 +100,7 @@ export class GrupoComponent implements OnInit,AfterViewInit {
   }
 
   agregar() {
+    this.label = 'Agregar grupo'
     this.form.reset();
     this.seleccionado = new Grupo();
     this.mostrarFormulario = true;
@@ -112,7 +117,7 @@ export class GrupoComponent implements OnInit,AfterViewInit {
         this.grupoService.delete(row.grupId)
           .subscribe(() => {
 
-            //this.items = this.items.filter( x => x !== row);
+            this.items = this.items.filter( x => x !== row);
 
             this.items = this.items.filter((item) => {
               if (item.grupId != row.grupId) {
@@ -129,8 +134,10 @@ export class GrupoComponent implements OnInit,AfterViewInit {
   }
 
   edit(seleccionado: Grupo) {
+    this.label = 'Editar grupo';
     this.mostrarFormulario = true;
     this.seleccionado = seleccionado;
+    this.form.setValue(seleccionado);
     this.form.setValue(seleccionado);
   }
 

@@ -32,6 +32,8 @@ export class ServicioComponent implements OnInit,AfterViewInit {
                         'acciones'];
   form = new FormGroup({});
 
+  label = '';
+
   mostrarFormulario = false;
   dataSource= new MatTableDataSource<Servicio>();
 
