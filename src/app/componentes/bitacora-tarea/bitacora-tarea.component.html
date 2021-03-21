@@ -1,1 +1,44 @@
-<p>bitacora-tarea works!</p>
+<div>
+    <table mat-table [dataSource]="dataSource" matSort>
+
+        <ng-container matColumnDef="tareNombre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Tarea </th>
+            <td mat-cell *matCellDef="let tare"> {{ tare.tareNombre }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="bitaObservaciones">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Observaciones </th>
+            <td mat-cell *matCellDef="let tare"> {{ tare.bitaObservaciones }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="bitaCantidad">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
+            <td mat-cell *matCellDef="let tare"> {{ tare.bitaCantidad }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="bitaCosto">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Costo </th>
+            <td mat-cell *matCellDef="let tare"> {{ tare.bitaCosto }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+            <td mat-cell *matCellDef="let tare">
+                <button title="editar" mat-raised-button color="primary" style="margin-right: 10px;" (click)="edit(tare)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button title="borrar" mat-raised-button color="primary" style="margin-right: 10px;" (click)="delete(tare)">
+                    <mat-icon>delete</mat-icon>
+                </button>  
+            </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="columnas" ></tr>
+                            <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+                    
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="4">No hay datos..</td>
+                            </tr>
+    </table>
+</div>

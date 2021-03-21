@@ -1,19 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 
-import { ConfirmarComponent } from 'src/app/shared/confirmar/confirmar.component';
+import { ConfirmarComponent } from '../../shared/confirmar/confirmar.component';
+import { GlobalService } from 'src/app/servicios/global.service';
 
-import { MovilServicio } from 'src/app/modelo/movil-servicio';
-import { Servicio } from 'src/app/modelo/servicio';
-import { MovilServicioService } from 'src/app/servicios/movil-servicio.service';
-import { ServicioService } from 'src/app/servicios/servicio.service';
+import { MovilServicio } from '../../modelo/movil-servicio';
+import { MovilServicioService } from '../../servicios/movil-servicio.service';
 
-import{GlobalService} from 'src/app/servicios/global.service'
+import { Servicio } from '../../modelo/servicio';
+import { ServicioService } from '../../servicios/servicio.service';
 
-
-
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-movil-servicio',
@@ -23,6 +24,9 @@ import{GlobalService} from 'src/app/servicios/global.service'
 export class MovilServicioComponent implements OnInit {
 
   @Input() moviId: number = 0;
+  
+  
+  items : MovilServicio[] = [];
 
 
   movilservicios: MovilServicio[] = [];
@@ -40,6 +44,13 @@ export class MovilServicioComponent implements OnInit {
     'moseKM',
     'acciones'];
   dataSource = new MatTableDataSource<MovilServicio>();
+  
+
+  formularioAgregarBitacora = false;
+  
+  
+  servicio: Servicio[] = [];
+  
 
 
   constructor(private MovilServicioService: MovilServicioService,
@@ -80,31 +91,36 @@ export class MovilServicioComponent implements OnInit {
 
   actualizarTabla() {
     this.dataSource.data = this.global.itemsMov.filter(borrado => borrado.moseBorrado==false);
+    this.dataSource.paginator = this.paginator;
   }
-
+ 
   agregar() {
+    this.form.reset();
     this.idAux--;
     this.seleccionado = new MovilServicio();
-    this.seleccionado.moseId = this.idAux;
+    
 
-    this.form.setValue(this.seleccionado)
+    
 
     this.mostrarFormulario = true;
   }
 
-  delete(fila: MovilServicio) {
-
-    const dialogRef = this.dialog.open(ConfirmarComponent);
+  delete(seleccionado: MovilServicio) {
+    const dialogRef = this.matDialog.open(ConfirmarComponent);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
 
-      if(result){
-        fila.moseBorrado = true;
-        this.actualizarTabla();
-      }
+      if (result) {
+        this.MovilServicioService.delete(seleccionado.moseId).subscribe(
+          () => {
+            this.items = this.items.filter(x => x.moseId !== seleccionado.moseId);
+            this.actualizarTabla();
+          });
+        }
+      });
 
-    });
+    
   }
 
   editar(seleccionado: MovilServicio) {
@@ -121,17 +137,33 @@ export class MovilServicioComponent implements OnInit {
       return;
     }
 
-    Object.assign(this.seleccionado, this.form.value);
-    this.global.itemsMov = this.global.itemsMov.filter(x => x.moseId != this.seleccionado.moseId);
-    this.global.itemsMov.push(this.seleccionado);
+    if(this.seleccionado.moseId){
+      this.seleccionado.moseServId = this.form.value.moseServId;
 
+      this.MovilServicioService.put(this.seleccionado).subscribe();
+      this.items = this.items.filter(x => x.moseId != this.seleccionado.moseId);
+      this.items.push(this.seleccionado);
+    }else{
+      this.seleccionado.moseMoviId = this.moviId;
+      this.seleccionado.moseServId = this.form.value.moseServId;
+      this.seleccionado.mosePeriodo = this.servicios.find( x => x.servId == this.seleccionado.moseServId)!.servPeriodo;
+      this.seleccionado.moseKM = this.servicios.find(x => x.servId == this.seleccionado.moseServId)!.servKM;
+      this.seleccionado.servNombre =this.servicios.find(x => x.servId == this.seleccionado.moseServId)!.servNombre;      
+      this.MovilServicioService.post(this.seleccionado).subscribe();
+      this.items = this.items.filter(x => x.moseId != this.seleccionado.moseId);
+      this.items.push(this.seleccionado);
+    }
 
-
-    this.mostrarFormulario=false;
+    this.mostrarFormulario = false;
     this.actualizarTabla();
+  }
+  agregarBitacora(serv : MovilServicio){
+    this.formularioAgregarBitacora = true;
+    this.seleccionado = serv;
   }
   cancelar() {
     this.mostrarFormulario = false;
+    this.formularioAgregarBitacora = false;
   }
 
 
