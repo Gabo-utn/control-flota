@@ -8,9 +8,10 @@
                 <input matInput (keyup)="filter($event)" placeholder="..." #input>
             </mat-form-field>
             &nbsp;&nbsp;
+            <!-- Boton de agregar tarea-->
             <button mat-raised-button (click)="agregar()" style="float:right;">Agregar Tarea</button>
 
-
+                <!-- Tabla-->
             <table mat-table [dataSource]="dataSource" matSort style="background-color:#e7e6e1;">
                 <mat-text-column name="tareId" headerText="ID!"></mat-text-column>
 
@@ -58,7 +59,9 @@
                 </tr>
             </table>
         </div>
-          <div *ngIf="mostrarFormulario">
+        
+        
+        <div *ngIf="mostrarFormulario">
 
             <form [formGroup]="form">
 
@@ -66,6 +69,7 @@
 
 
                 <div>
+                    <!-- nombre-->
                     <div>
                         <mat-form-field appearance="outline">
                             <mat-label>Descripcion</mat-label>
@@ -73,6 +77,7 @@
                             <mat-error>El campo no puede ser vacio</mat-error>
                         </mat-form-field>
                     </div>
+                    <!-- descripcion-->
                     <div>
                         <mat-form-field appearance="outline">
                             <mat-label>Nombre</mat-label>

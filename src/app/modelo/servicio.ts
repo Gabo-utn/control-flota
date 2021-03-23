@@ -6,5 +6,5 @@ servPeriodo: number = 0;
 servKM: number = 0;
 servFecha: boolean = false;
 servFechaAlta: Date = new Date();
-servBorrado = false;
+servBorrado: number= 0;
 }

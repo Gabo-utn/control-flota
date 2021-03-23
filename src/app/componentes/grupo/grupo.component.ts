@@ -64,7 +64,7 @@ export class GrupoComponent implements OnInit,AfterViewInit {
         this.actualizarTabla();
       }
     )
-    debugger
+    
   }
   mostrarGrupo():Boolean{
     if(this.seleccionado.grupId){

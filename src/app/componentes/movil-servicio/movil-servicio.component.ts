@@ -1,8 +1,9 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { MatDialog } from '@angular/material/dialog';
+
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 
 import { ConfirmarComponent } from '../../shared/confirmar/confirmar.component';
 import { GlobalService } from 'src/app/servicios/global.service';
@@ -53,29 +54,39 @@ export class MovilServicioComponent implements OnInit {
   
 
 
-  constructor(private MovilServicioService: MovilServicioService,
+  constructor(private movilServicioService: MovilServicioService,
     private servicioService: ServicioService,
     private formBuilder: FormBuilder,
-    public dialog: MatDialog,
+    private dialog: MatDialog,
     public global: GlobalService) { }
+  
 
+    @ViewChild(MatSort) sort!: MatSort;
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
+    ngAfterViewInit() {
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+  
+    }
+
+    
 
   ngOnInit(): void {
 
     this.form = this.formBuilder.group({
       moseId: [''],
       moseMoviId: [''],
-      moseServId: ['', Validators.required],
+      moseServId: [''],
       mosePeriodo: [''],
       moseKM: [''],
       moseFecha: [''],
-      moseBorrado: [''],
       moseFechaAlta: [''],
-      servNombre: [''],
+      moseBorrado: [''],
 
+      servNombre: ['']
     });
 
-    this.MovilServicioService.get(`moseMoviId=${this.moviId}`).subscribe(
+    this.movilServicioService.get(`moseMoviId=${this.moviId}`).subscribe(
       (MovilServicio) => {
         this.global.itemsMov = MovilServicio;
         this.actualizarTabla();
@@ -96,8 +107,8 @@ export class MovilServicioComponent implements OnInit {
  
   agregar() {
     this.form.reset();
-    this.idAux--;
     this.seleccionado = new MovilServicio();
+    this.mostrarFormulario = true;
     
 
     
@@ -106,13 +117,13 @@ export class MovilServicioComponent implements OnInit {
   }
 
   delete(seleccionado: MovilServicio) {
-    const dialogRef = this.matDialog.open(ConfirmarComponent);
+    const dialogRef = this.dialog.open(ConfirmarComponent);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
 
       if (result) {
-        this.MovilServicioService.delete(seleccionado.moseId).subscribe(
+        this.movilServicioService.delete(seleccionado.moseId).subscribe(
           () => {
             this.items = this.items.filter(x => x.moseId !== seleccionado.moseId);
             this.actualizarTabla();
@@ -140,7 +151,7 @@ export class MovilServicioComponent implements OnInit {
     if(this.seleccionado.moseId){
       this.seleccionado.moseServId = this.form.value.moseServId;
 
-      this.MovilServicioService.put(this.seleccionado).subscribe();
+      this.movilServicioService.put(this.seleccionado).subscribe();
       this.items = this.items.filter(x => x.moseId != this.seleccionado.moseId);
       this.items.push(this.seleccionado);
     }else{
@@ -149,7 +160,7 @@ export class MovilServicioComponent implements OnInit {
       this.seleccionado.mosePeriodo = this.servicios.find( x => x.servId == this.seleccionado.moseServId)!.servPeriodo;
       this.seleccionado.moseKM = this.servicios.find(x => x.servId == this.seleccionado.moseServId)!.servKM;
       this.seleccionado.servNombre =this.servicios.find(x => x.servId == this.seleccionado.moseServId)!.servNombre;      
-      this.MovilServicioService.post(this.seleccionado).subscribe();
+      this.movilServicioService.post(this.seleccionado).subscribe();
       this.items = this.items.filter(x => x.moseId != this.seleccionado.moseId);
       this.items.push(this.seleccionado);
     }

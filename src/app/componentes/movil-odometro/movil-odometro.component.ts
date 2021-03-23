@@ -12,6 +12,8 @@ import { MovilService } from '../../servicios/movil.service';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 
+import { AvisoComponent } from 'src/app/shared/aviso/aviso/aviso.component';
+
 @Component({
   selector: 'app-movil-odometro',
   templateUrl: './movil-odometro.component.html',
@@ -22,26 +24,20 @@ export class MovilOdometroComponent implements OnInit {
   @Input() moviId: number = 0;
 
   seleccionado = new MovilOdometro();
-
   items : MovilOdometro[] = [];
 
-  columnas : string[] = ['modoFecha',
-                        'modoOdometro',
-                        'acciones'];
-
-
+  columnas : string[] = ['modoFecha', 'modoOdometro', 'acciones'];
 
   dataSource = new MatTableDataSource<MovilOdometro>();
   form = new FormGroup({});
 
- 
-
   mostrarFormulario = false;
+  label = 'Agregar Nuevo Odometro';
 
   moviles: Movil[] = [];
   movil = new Movil();
 
-  label = 'Agregar Nuevo Odometro';
+  
 
   constructor(
     private movilOdometroService: MovilOdometroService,
@@ -49,6 +45,9 @@ export class MovilOdometroComponent implements OnInit {
     private matDialog: MatDialog,
     private movilService: MovilService,
   ) { }
+  
+ 
+
 
   ngOnInit(): void {
     this.form = this.formBouilder.group({

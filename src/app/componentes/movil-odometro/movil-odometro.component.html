@@ -1,92 +1,75 @@
-<div [hidden]="mostrarFormularioAgregarBitacora">
-    <!--Tabla movil bitacora-->
-    
-    <button mat-raised-button id="agregar" (click)="agregarNuevaBitacora()" style="float:left;">Agregar Bitacora</button>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th><mat-label style="font-size: 25px; font-weight: 100;">{{label}}</mat-label></th>
+                <th><mat-label style="font-size: 25px; font-weight: 100;">Recientes</mat-label></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <form [formGroup]="form" style="width: 100%;">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Odometro</mat-label>
+                            <input type="number" matInput formControlName="modoOdometro" required>
+                        </mat-form-field>
+                        <br>
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Fecha</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="modoFecha" style="width: 100%;" required>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>                    
+                         </mat-form-field>
+                         <br>
+                      <div>
+                        <button type="button" mat-raised-button (click)="cancelar()">Cancelar</button>
+                        &nbsp;
+                        <button type="button" mat-raised-button color="primary" (click)="guardar()">Guardar</button>
+                        </div>
+                    </form>
+                </td>
+                <td>
+                    <!--Tabla movil odometro-->
 
-    <table mat-table [dataSource]="dataSource" matSort style="padding: 10px;">
+                    <table mat-table [dataSource]="dataSource" matSort style="padding: 10px;">
+
+                        <ng-container matColumnDef="modoFecha">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+                            <td mat-cell *matCellDef="let odo"> {{ odo.modoFecha }} </td>
+                        </ng-container>
                 
-        <ng-container matColumnDef="servNombre">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Servicio </th>
-            <td mat-cell *matCellDef="let bit"> {{ bit.servNombre }} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="mobiFecha">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
-            <td mat-cell *matCellDef="let bit"> {{bit.mobiFecha}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="mobiObservaciones">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Observaciones </th>
-            <td mat-cell *matCellDef="let bit"> {{bit.mobiObservaciones}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="mobiOdometro">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Odometro </th>
-            <td mat-cell *matCellDef="let bit"> {{bit.mobiOdometro}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="acciones">
-            <th mat-header-cell *matHeaderCellDef>Acciones</th>
-            <td mat-cell *matCellDef="let serv">
-                <button title="editar" mat-raised-button color="primary" style="margin-right: 10px;" (click)="edit(serv)">
-                    <mat-icon>edit</mat-icon>
-                </button>
-                <button title="borrar" mat-raised-button color="primary" style="margin-right: 10px;" (click)="delete(serv)">
-                    <mat-icon>delete</mat-icon>
-                </button>  
-                <button title="realizar servicio" mat-raised-button color="primary" (click)="realizarServicio(serv)">
-                    <mat-icon>add</mat-icon>
-                </button>
-            </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="columnas" ></tr>
-        <tr mat-row *matRowDef="let row; columns: columnas"></tr>
-
-        <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4">No hay datos..</td>
-        </tr>
-    </table>
-
-    <!--Paginador-->
+                        <ng-container matColumnDef="modoOdometro">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Odometro </th>
+                            <td mat-cell *matCellDef="let odo"> {{odo.modoOdometro}} </td>
+                        </ng-container>
+                
+                        <ng-container matColumnDef="acciones">
+                            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                            <td mat-cell *matCellDef="let serv">
+                                <button title="editar" mat-raised-button color="primary" style="margin-right: 10px;" (click)="edit(serv)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button title="borrar" mat-raised-button color="primary" (click)="delete(serv)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>  
+                            </td>
+                        </ng-container>
+                
+                        <tr mat-header-row *matHeaderRowDef="columnas" ></tr>
+                        <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+                
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="4">No hay datos</td>
+                        </tr>
+                    </table>
+  
+                    <!--Paginador-->
     
-    <mat-paginator [pageSizeOptions]="[1, 3, 10]" showFirstLastButtons></mat-paginator>
-</div>
-
-<div *ngIf="mostrarFormularioAgregarBitacora">
-    <!--Form agregar nueva bitacora-->
-
-    <mat-label style="font-size: 20px; font-weight: 100;">{{label}}</mat-label>
-    <form [formGroup]="form" style="width: 100%;">
-        <mat-form-field appearance="outline" style="width: 100%;"> 
-            <mat-label>Servicio</mat-label>
-            <mat-select formControlName="mobiServId">
-                <mat-option *ngFor="let serv of servicios" [value]="serv.servId">
-                    {{serv.servNombre}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="outline" style="width: 100%;">
-            <mat-label>Fecha</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="mobiFecha" style="width: 100%;">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>                    
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="outline" style="width: 100%;">
-            <mat-label>Observaciones</mat-label>
-            <input matInput formControlName="mobiObservaciones">
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="outline" style="width: 100%;">
-            <mat-label>Odometro</mat-label>
-            <input matInput formControlName="mobiOdometro">
-        </mat-form-field>
-        <div>
-            <button type="button" mat-raised-button (click)="cancelar()">Cancelar</button>
-            &nbsp;
-            <button type="button" mat-raised-button color="primary" (click)="guardar()">Guardar</button>
-        </div>
-    </form>
+                    <mat-paginator [pageSizeOptions]="[3, 5, 10]" showFirstLastButtons></mat-paginator>
+    
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

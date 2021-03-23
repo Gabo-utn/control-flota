@@ -282,8 +282,8 @@ export class MovilBitacoraComponent implements OnInit {
 
       this.seleccionado.mobiFecha = this.form.value.mobiFecha;
       this.seleccionado;
-      debugger
-      debugger
+      //debugger
+      //debugger
 
       //mobiProximafecha un bardo calcular
       this.seleccionado.mobiPendiente = true;
@@ -406,7 +406,7 @@ export class MovilBitacoraComponent implements OnInit {
       this.bitaTarea.bitaTareId = i.setaTareId;
       this.bitaTarea.bitaObservaciones = '';//this.tareas.find(x => x.tareId = i.setaTareId)!.tareDescripcion;
       this.bitaTarea.bitaMobiId = this.items.find(x => x.mobiBorrado == 0)!.mobiId;;
-      debugger
+      //debugger
       this.bitaTarea.bitaCosto = this.tareas.find(x => x.tareId = i.setaTareId)!.tareCosto;
       this.bitaTarea.bitaCantidad = this.tareas.find(x => x.tareId = i.setaTareId)!.tareCantidad;
     
