@@ -88,6 +88,7 @@ export class MovilOdometroComponent implements OnInit {
   agregar() {this.form.reset();
     this.form.reset();
     this.seleccionado = new MovilOdometro();
+    this.mostrarFormulario = true;
 
   }
 
@@ -113,6 +114,7 @@ export class MovilOdometroComponent implements OnInit {
     this.label = 'Editar Odometro';
     this.seleccionado = seleccionado;
     this.form.setValue(seleccionado);
+    this.mostrarFormulario = true;
 
   }
 
@@ -149,6 +151,8 @@ export class MovilOdometroComponent implements OnInit {
 cancelar() {  this.form.reset();
   this.actualizarTabla();
   this.label = 'Agregar Nuevo Odometro'
+  this.mostrarFormulario = false;
+
 
 }
 

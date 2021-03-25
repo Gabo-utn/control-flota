@@ -108,7 +108,7 @@ export class MovilBitacoraComponent implements OnInit {
       servNombre: ['']
     });
 
-    this.movilBitacoraService.get('mobiMoviId=${this.moviId}').subscribe(
+    this.movilBitacoraService.get(`mobiMoviId=${this.moviId}`).subscribe(
       (movil) => {
         this.items = movil;
         this.actualizarTabla();
@@ -348,8 +348,10 @@ export class MovilBitacoraComponent implements OnInit {
   
 
   cancelar() {
+    this.actualizarTabla();
+    this.label = 'Agregar Nueva Bitacora';
+    this.mostrarFormulario = false;
     this.form.reset();
-    this.label = 'Agregar Nueva Bitacora'
   }
 
   actualizarDetalle(mobiId: number){
