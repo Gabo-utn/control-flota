@@ -132,7 +132,7 @@ export class MovilOdometroComponent implements OnInit {
       this.items = this.items.filter(x => x.modoId != this.seleccionado.modoId);
       this.items.push(this.seleccionado);
     //agregar odometro
-     //agregar odometro
+     
      this.seleccionado.modoOdometro = this.form.value.modoOdometro;
      this.seleccionado.modoFecha = this.form.value.modoFecha;
      this.seleccionado.modoMoviId = this.moviId;

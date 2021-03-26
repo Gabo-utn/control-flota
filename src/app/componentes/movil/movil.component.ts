@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { ConfirmarComponent } from '../../shared/confirmar/confirmar.component';
+import { AvisoComponent } from 'src/app/shared/aviso/aviso/aviso.component'
+
 import { MovilService } from '../../servicios/movil.service';
 import { Movil } from '../../modelo/movil';
 
@@ -12,7 +14,7 @@ import { MovilGrupo} from 'src/app/modelo/movil-grupo';
 
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { AvisoComponent } from 'src/app/shared/aviso/aviso/aviso.component'
+
 
 
 
@@ -38,11 +40,13 @@ export class MovilComponent implements OnInit {
 
 
   mostrarFormulario = false;
+  gruposMovil: MovilGrupo[] = [];
 
   constructor(
     private movilServicio : MovilService,
     private formBouilder: FormBuilder,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private MovilGrupoService: MovilGrupoService,
   ) { }
 
   @ViewChild(MatSort) sort!: MatSort;
@@ -97,14 +101,15 @@ export class MovilComponent implements OnInit {
   verMas(seleccionado:Movil) {
     this.mostrarFormulario = true;
     this.seleccionado = seleccionado;
+    
 
-   // this.MovilGrupoService.get(`mogrMoviId=${this.seleccionado.moviId}`).subscribe(
-     // (grupos) => {
-       //this.gruposMovil = grupos;
-  }
+    this.MovilGrupoService.get(`mogrMoviId=${this.seleccionado.moviId}`).subscribe(
+      (grupos) => {
+       this.gruposMovil = grupos
+  } ) }
 
   agregar() {
-    this.mostrarFormularioAgregarMovil = true;
+    this.mostrarFormularioAgregarMovil = true
 
   }
 
@@ -118,12 +123,14 @@ export class MovilComponent implements OnInit {
 
       if (result) {
 
-        //this.seleccionado = Movil;
+        this.seleccionado =  row;
 
         this.movilServicio.delete(this.seleccionado.moviId).subscribe();
 
+        this.items = this.items.filter(x => x.moviId != this.seleccionado.moviId);
         this.actualizarTabla();
 
+        
       }else{
         this.cancelar();
       }
@@ -137,7 +144,7 @@ export class MovilComponent implements OnInit {
 
   }
 
-  guardar() {
+  guardarMovil() {
 
   }
   editarMovil(){
@@ -145,10 +152,12 @@ export class MovilComponent implements OnInit {
   }
 
   cancelar() {
+    this.mostrarFormulario = false;
     this.mostrarFormularioAgregarMovil = false;
     this.mostrarFormularioMantenimiento = false;
     this.mostrarFormularioEditarMovil = false;
     this.editarMovilF = false;
+    
   }
 
   actualizarMantenimiento(moviId: number) {

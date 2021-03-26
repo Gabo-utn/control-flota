@@ -9,6 +9,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { BitacoraTarea } from '../../modelo/bitacora-tarea';
 import { BitacoraTareaService } from '../../servicios/bitacora-tarea.service';
 
+
 @Component({
   selector: 'app-bitacora-tarea',
   templateUrl: './bitacora-tarea.component.html',

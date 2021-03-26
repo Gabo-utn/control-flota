@@ -1,0 +1,118 @@
+<div [hidden]="mostrarFormularioAgregar">
+    <!--Busqueda-->
+    
+    <!--Tabla Moviles que no tienen control flota-->    
+
+    <mat-label style="font-size: 25px; font-weight: 100;">Agregar Móvil a Control de Flota</mat-label>
+    
+    <!--Buscadores-->
+    <div style="margin-top: 20px;">
+        <mat-form-field  appearance="fill">
+            <mat-label>Buscar por Patente</mat-label>
+            <input matInput  (keyup.enter)="buscar()" [(ngModel)]="patente" placeholder="Ej : OWK523" >
+        </mat-form-field>&nbsp;
+        <mat-form-field  appearance="fill">
+            <mat-label>Buscar por Descripcion</mat-label>
+            <input matInput  (keyup.enter)="buscar()" [(ngModel)]="descripcion"  placeholder="Ej : CV02A  ..">
+        </mat-form-field>&nbsp;
+        <mat-form-field  appearance="fill">
+            <mat-label>Buscar por Dependencia</mat-label>
+            <input matInput  (keyup.enter)="buscar()" [(ngModel)]="dependencia" placeholder="Ej:CRIA VECINAL 02-A">
+        </mat-form-field>
+
+        <button mat-stroked-button style="margin-left: 10px;" (click)="buscar()">Buscar</button>
+
+       
+    </div>
+
+    <table mat-table [dataSource]="dataSource" matSort style="overflow-x:auto; width: 100%;">
+
+        <ng-container matColumnDef="patente">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Patente </th>
+            <td mat-cell *matCellDef="let movil"> {{ movil.patente }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </th>
+            <td mat-cell *matCellDef="let movil"> {{movil.descripcion}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="dependencia">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Dependencia </th>
+            <td mat-cell *matCellDef="let movil"> {{movil.dependencia}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="marca">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Marca </th>
+            <td mat-cell *matCellDef="let movil"> {{movil.marca}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="modelo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Modelo </th>
+            <td mat-cell *matCellDef="let movil"> {{movil.modelo}} </td>
+        </ng-container>
+        
+        <!--habilitar o desabilitar botones agreagr y reactivar-->
+        <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+            <td mat-cell *matCellDef="let movil">
+                        <button type="button" [disabled]="movil.moviBorrado == 0 || movil.moviBorrado == 1 " title="agregar mantenimiento" mat-stroked-button color="primary" style="margin-right: 5px;" (click)="agregar(movil)">
+                            <mat-icon>add</mat-icon> Agregar
+                        </button> 
+                        <button type="button" [disabled]="movil.moviBorrado == 0 || movil.moviBorrado == null" title="reactivar" mat-stroked-button color="primary" (click)="reactivar(movil)">
+                            <mat-icon>playlist_add</mat-icon> Reactivar
+                        </button>    
+            </td>
+        </ng-container>
+
+        <!--EStado del movil : agregado, borraro o no agregado-->
+        <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+            <td mat-cell *matCellDef="let movil"> 
+                {{!movil.moviId ? ' movil no registrado en control de flota' : '' 
+                || movil.moviBorrado===1 ? 'movil registrado pero borrado' : ''
+                || movil.moviBorrado===0 ? 'movil registrado en Control de Flota'  : ''}} </td>
+        </ng-container>
+
+
+
+        <tr mat-header-row *matHeaderRowDef="columnas" ></tr>
+        <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">Buscar por patente, descripcion o dependencia</td>
+        </tr>
+    
+    </table>
+
+    <!--paginador-->
+
+    <mat-paginator [pageSizeOptions]="[6, 10, 20]" showFirstLastButtons></mat-paginator>
+
+</div>
+
+    <!--Agregar movil a control flota-->
+
+<div *ngIf="mostrarFormularioAgregar">
+
+    <mat-label>(Guardar cambios en cada instancia)</mat-label>
+    <mat-horizontal-stepper labelPosition="bottom" linear #stepper>
+        
+        <!--FORM GRUPO-->
+        <mat-step required>
+            <app-movil-grupo [moviId]="seleccionado.moviId"></app-movil-grupo>
+            <button type="button" mat-stroked-button color="primary" matStepperNext>Siguiente</button>
+        </mat-step>
+        <!--FORM ODOMETRO-->
+        <mat-step optional>
+            <app-movil-odometro [moviId]="seleccionado.moviId"></app-movil-odometro>
+            <button type="button" mat-stroked-button color="primary" matStepperNext>Siguiente</button>
+        </mat-step>
+
+        <!--FIN-->
+        <mat-step>
+          <ng-template matStepLabel>Fin</ng-template>
+          <p>Móvil agregado a control de flota exitosamente.</p>
+        </mat-step>
+    </mat-horizontal-stepper>
+</div>

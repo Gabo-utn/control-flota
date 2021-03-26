@@ -19,6 +19,7 @@ import { BitacoraTareaService } from '../../servicios/bitacora-tarea.service'
 
 import { MovilServicio } from '../../modelo/movil-servicio';
 import { MovilServicioService } from '../../servicios/movil-servicio.service';
+import { MovilService } from 'src/app/servicios/movil.service';
 
 import { ServicioTarea } from '../../modelo/servicio-tarea';
 import { ServicioTareaService } from '../../servicios/servicio-tarea.service';
@@ -26,6 +27,8 @@ import { ServicioTareaService } from '../../servicios/servicio-tarea.service';
 import { Tarea } from '../../modelo/tarea';
 import { TareaService } from '../../servicios/tarea.service';
 import { AvisoComponent } from 'src/app/shared/aviso/aviso/aviso.component';
+
+
 
 @Component({
   selector: 'app-movil-bitacora',
@@ -77,6 +80,8 @@ export class MovilBitacoraComponent implements OnInit {
   agregarTareasPreestablecidas = false;
   bitaTarea = new BitacoraTarea();
 
+  isSetIdServ = false;
+
   constructor(
     private movilBitacoraService: MovilBitacoraService,
     private servicioService: ServicioService,
@@ -85,8 +90,16 @@ export class MovilBitacoraComponent implements OnInit {
     private servicioTareaService: ServicioTareaService,
     private tareaService: TareaService,
     private formBouilder: FormBuilder,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private movilService: MovilService,
   ) { }
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
 
   ngOnInit(): void {
     this.form = this.formBouilder.group({
@@ -348,10 +361,9 @@ export class MovilBitacoraComponent implements OnInit {
   
 
   cancelar() {
-    this.actualizarTabla();
-    this.label = 'Agregar Nueva Bitacora';
-    this.mostrarFormulario = false;
     this.form.reset();
+    this.mostrarFormularioAgregarBitacora = false;
+    this.label = 'Bitacoras Recientes'
   }
 
   actualizarDetalle(mobiId: number){
