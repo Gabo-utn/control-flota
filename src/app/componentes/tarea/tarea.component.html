@@ -12,7 +12,7 @@
             <button mat-raised-button (click)="agregar()" style="float:right;">Agregar Tarea</button>
 
                 <!-- Tabla-->
-            <table mat-table [dataSource]="dataSource" matSort style="background-color:#e7e6e1;">
+            <table mat-table [dataSource]="dataSource" matSort style="overflow-x:auto; width: 100%;">
                 <mat-text-column name="tareId" headerText="ID!"></mat-text-column>
 
                 <ng-container matColumnDef="tareDescripcion">
@@ -42,10 +42,10 @@
                 <ng-container matColumnDef="acciones">
                     <th mat-header-cell *matHeaderCellDef> </th>
                     <td mat-cell *matCellDef="let tarea">
-                            <button title="editar" (click)="edit(tarea)">
+                            <button  title="editar" mat-stroked-button color="primary" style="margin-right: 10px;" (click)="edit(tarea)">
                                 <mat-icon>edit</mat-icon>
                             </button>
-                            <button title="borrar" (click)="delete(tarea)">
+                            <button   title="borrar" mat-stroked-button color="primary" style="margin-right: 10px;" (click)="delete(tarea)">
                                 <mat-icon>delete</mat-icon>
                             </button>
                     </td>

@@ -10,10 +10,10 @@
                 <ng-container matColumnDef="acciones">
                     <th mat-header-cell *matHeaderCellDef> </th>
                     <td mat-cell *matCellDef="let servicioTarea">
-                        <button mat-raised-button color="black" title="editar" (click)="editar(servicioTarea)">
+                        <button mat-stroked-button color="black" title="editar" (click)="editar(servicioTarea)">
                             Editar
                         </button>
-                        <button style="margin-left: 0.2cm;" mat-raised-button color="warn" title="borrar" (click)="delete(servicioTarea)">
+                        <button style="margin-left: 0.2cm;" mat-stroked-button color="warn" title="borrar" (click)="delete(servicioTarea)">
                             Borrar
                         </button>
                     </td>
@@ -28,7 +28,7 @@
             </table>
 
             <div style="text-align: center;">
-                <button mat-raised-button color="primary" (click)="agregar()">Agregar</button>
+                <button mat-flat-button color="primary" (click)="agregar()">Agregar</button>
             </div>
         </div>
 
