@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 
-import { AvisoComponent } from 'src/app/shared/aviso/aviso/aviso.component';
+import { AvisoComponent} from 'src/app/shared/aviso/aviso/aviso.component';
 import { ConfirmarComponent } from '../../shared/confirmar/confirmar.component';
 
 import { Movil } from '../../modelo/movil';

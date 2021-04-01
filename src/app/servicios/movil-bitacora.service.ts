@@ -12,6 +12,8 @@ import {MovilBitacora } from '../modelo/movil-bitacora';
 export class MovilBitacoraService
   extends ApiService<MovilBitacora>{
 
+    mobiSelected = new MovilBitacora();
+
   constructor(
     protected http: HttpClient,
     protected app: AppConfigService)

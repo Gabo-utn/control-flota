@@ -62,7 +62,7 @@
 
     </div>
 
-    
+        
         <div *ngIf="mostrarFormulario">
             <mat-card>
                 <mat-grid-list cols="2" rowHeight="500px">
@@ -122,13 +122,19 @@
                         </div>
                     </mat-grid-tile>
 
-                    <mat-grid-tile
+                    <mat-grid-tile 
                     [colspan]="1"
                     [rowspan]="1">
+                            
                         <div *ngIf="mostrarFormulario">
-                            <div style="width: 180%;">
-                                <h2>Editar Tareas</h2>
+                           
+                            <div style="width: 180%; text-align: center;"  >
+
+                                <h2>Editar tarea</h2>
+                                
+                                
                                 <app-servicio-tarea  [servId]="seleccionado.servId"></app-servicio-tarea>
+                            
                             </div>
                         </div>
                     </mat-grid-tile>

@@ -1,4 +1,6 @@
-<div>
+<div [hidden]="mostrarFormularioBitacoraTarea">
+    <button mat-raised-button type="button" (click)="agregar()">Agregar Tareas</button>
+    <br>
     <table mat-table [dataSource]="dataSource" matSort>
 
         <ng-container matColumnDef="tareNombre">
@@ -24,7 +26,7 @@
         <ng-container matColumnDef="acciones">
             <th mat-header-cell *matHeaderCellDef>Acciones</th>
             <td mat-cell *matCellDef="let tare">
-                <button title="editar" mat-raised-button color="primary" style="margin-right: 10px;" (click)="edit(tare)">
+                <button title="editar" mat-raised-button color="primary" style="margin-right: 10px;" (click)="editar(tare)">
                     <mat-icon>edit</mat-icon>
                 </button>
                 <button title="borrar" mat-raised-button color="primary" style="margin-right: 10px;" (click)="delete(tare)">
@@ -35,10 +37,52 @@
 
 
         <tr mat-header-row *matHeaderRowDef="columnas" ></tr>
-                            <tr mat-row *matRowDef="let row; columns: columnas"></tr>
-                    
-                            <tr class="mat-row" *matNoDataRow>
-                                <td class="mat-cell" colspan="4">No hay datos..</td>
-                            </tr>
+        <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No hay datos..</td>
+        </tr>            
+        
     </table>
+</div>
+
+<div *ngIf="mostrarFormularioBitacoraTarea">
+    <form [formGroup]="form" style="width: 100%;">
+        <div>
+            <mat-form-field appearance="outline" style="width: 100%;" > 
+                <mat-label>Tarea</mat-label>
+                <mat-select formControlName="bitaTareId">
+                    <mat-option *ngFor="let tare of servicioTarea" [value]="tare.setaTareId">
+                        {{tare.tareNombre}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <br>
+        <div>
+            <mat-form-field appearance="outline" style="width: 100%;" > 
+                <mat-label>Observaciones</mat-label>
+                <input type="text" matInput formControlName="bitaObservaciones">
+            </mat-form-field>
+        </div>
+        <br>
+        <div>
+            <mat-form-field appearance="outline" style="width: 100%;" > 
+                <mat-label>Cantidad</mat-label>
+                <input type="number" matInput  formControlName="bitaCantidad">
+            </mat-form-field>
+        </div>
+        <br>
+        <div>
+            <mat-form-field appearance="outline" style="width: 100%;" > 
+                <mat-label>Costo</mat-label>
+                <input type="number" matInput formControlName="bitaCosto">
+            </mat-form-field>
+        </div>
+        <br>
+        <div>
+            <button type="button" mat-raised-button color="primary" (click)="guardar()">Guardar</button>
+            &nbsp;
+            <button type="button" mat-raised-button (click)="cancelar()">Cancelar</button>
+        </div>
+    </form>
 </div>

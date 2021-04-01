@@ -40,15 +40,15 @@
 
 
         <!--formulario para agregar un servicio        CORREGIR -->
-        <div *ngIf="mostrarFormulario" >
+        <div    *ngIf="mostrarFormulario" >
 
             <form [formGroup]="form" >
 
                 <div [hidden]="true">
                     <input type="text" formControlName="grusGrupId" [(ngModel)]="grupId">
                 </div>
-
-                <div style="text-align: center;" >
+                
+                <div style="width: 100%; " >
                     <h2>Seleccione un servicio</h2>
                     <mat-form-field appearance="outline" >
                         <mat-label>Servicio</mat-label>
@@ -61,11 +61,11 @@
                     </mat-form-field>
                 </div>
 
-                <div style="text-align: center;">
-                    <button mat-raised-button color="primary" (click)="guardar()">Guardar</button>
-                    &nbsp;
-                    <button mat-raised-button type="submit" (click)="cancelar()">Cancelar</button>
-                </div>
+                    <div style="text-align: center;">
+                         <button mat-raised-button color="primary" (click)="guardar()">Guardar</button>
+                          &nbsp;
+                         <button mat-raised-button type="submit" (click)="cancelar()">Cancelar</button>
+                    </div>
             </form>
 
 

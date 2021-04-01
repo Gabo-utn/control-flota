@@ -12,6 +12,8 @@ import { BitacoraTarea } from '../modelo/bitacora-tarea';
 export class BitacoraTareaService
   extends ApiService<BitacoraTarea>{
 
+    items: BitacoraTarea[]=[];
+
   constructor(
     protected http: HttpClient,
     protected app: AppConfigService
