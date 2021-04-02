@@ -5,6 +5,7 @@ import { GrupoComponent } from './componentes/grupo/grupo.component';
 import { HomeComponent } from './componentes/home/home.component';
 import { ServicioComponent } from './componentes/servicio/servicio.component';
 import { TareaComponent } from './componentes/tarea/tarea.component';
+import { PendientesComponent } from './componentes/pendientes/pendientes.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'tarea', component: TareaComponent },
   { path: 'servicio', component: ServicioComponent },
   {path:'movil',component:MovilComponent},
+  { path: 'pendientes', component: PendientesComponent  }
 ];
 
 

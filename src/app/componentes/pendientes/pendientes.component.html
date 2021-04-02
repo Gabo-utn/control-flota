@@ -1,0 +1,59 @@
+<mat-card>
+    <mat-label style="font-size: 25px; font-weight: 100">Móviles con Servicios Pendientes</mat-label>
+            
+    <table mat-table [dataSource]="dataSource" matSort style="padding: 10px;">
+                
+        <ng-container matColumnDef="patente">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Patente </th>
+            <td mat-cell *matCellDef="let mobi"> {{ mobi.patente }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </th>
+            <td mat-cell *matCellDef="let mobi"> {{mobi.mobiFecha}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="servicio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Servicio </th>
+            <td mat-cell *matCellDef="let mobi"> {{mobi.servNombre}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="mobiProximoOdometro">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Proximo Odometro </th>
+            <td mat-cell *matCellDef="let mobi"> {{mobi.mobiProximoOdometro}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="mobiProximaFecha">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Proxima Fecha </th>
+            <td mat-cell *matCellDef="let mobi"> {{mobi.mobiProximaFecha}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+            <td mat-cell *matCellDef="let mobi"> {{mobi.mobiProximaFecha == fechaActual? 'fecha limite' : 'cosas' }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+            <td mat-cell *matCellDef="let serv">
+                <button title="quitar pendiente" mat-raised-button color="primary" style="margin-right: 10px;" (click)="edit(serv)">
+                    <mat-icon>edit</mat-icon>
+                </button>  
+                <button title="realizar servicio pendiente" mat-raised-button color="primary" (click)="realizarServicio(serv)" [disabled]="serv.mobiPendiente == 0">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnas" ></tr>
+        <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No hay datos..</td>
+        </tr>
+    </table>
+
+    <!--Paginador-->
+    
+    <mat-paginator [pageSizeOptions]="[3, 5, 10]" showFirstLastButtons></mat-paginator>
+</mat-card>

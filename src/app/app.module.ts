@@ -45,6 +45,7 @@ import { MovilOdometroComponent } from './componentes/movil-odometro/movil-odome
 import { MovilGrupoComponent } from './componentes/movil-grupo/movil-grupo.component';
 import { AvisoComponent } from './shared/aviso/aviso/aviso.component';
 import { AgregarMovilComponent } from './componentes/agregar-movil/agregar-movil.component';
+import { PendientesComponent } from './componentes/pendientes/pendientes.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { AgregarMovilComponent } from './componentes/agregar-movil/agregar-movil
     MovilOdometroComponent,
     MovilGrupoComponent,
     AvisoComponent,
-    AgregarMovilComponent
+    AgregarMovilComponent,
+    PendientesComponent
 
 
   ],

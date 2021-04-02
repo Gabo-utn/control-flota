@@ -205,8 +205,9 @@ export class MovilBitacoraComponent implements OnInit {
   }
 
   edit(seleccionado: MovilBitacora) {
+    this.movilBitacoraService.mobiSelected.mobiServId = seleccionado.mobiServId;
     this.label ="Editar Bitacora"
-    this.mostrarFormulario = true;
+    this.mostrarFormularioAgregarBitacora  = true;
     this.seleccionado = seleccionado;
     this.form.setValue(seleccionado);
   }
