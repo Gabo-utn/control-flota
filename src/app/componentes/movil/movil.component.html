@@ -1,22 +1,21 @@
 
 <div style="width: 100%; height: 100%;" class="mat-elevation-z8">
 
-<div [hidden]="mostrarFormulario">
+    <div [hidden]="mostrarFormulario">
         <!--Filtro-->
-    <mat-form-field id="filtro" appearance="legacy">
+      <mat-form-field id="filtro" appearance="legacy">
         <mat-label>Buscar patente, descripcion, dependencia..</mat-label>
         <input matInput (keyup)="filter($event)" placeholder="..." #input>
-    </mat-form-field>
+      </mat-form-field>
 
-    &nbsp;
-    <button mat-raised-button color="primary" (click)="agregar()" style="float:right;">Agregar Movil</button>
+        &nbsp;
+     <button mat-raised-button color="primary" (click)="agregar()" style="float:right;">Agregar Movil</button>    
+   
 
-    
+        <!--Tabla moviles-->
 
 
-    <!--Tabla moviles-->
-
-    <table mat-table [dataSource]="dataSource" matSort style="overflow-x:auto; width: 100%;">
+        <table mat-table [dataSource]="dataSource" matSort style="overflow-x:auto; width: 100%;">
 
         <ng-container matColumnDef="patente">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Patente </th>
@@ -52,9 +51,13 @@
         <ng-container matColumnDef="acciones">
             <th mat-header-cell *matHeaderCellDef>Acciones</th>
             <td mat-cell *matCellDef="let movil">
-                        <button title="ver mas" mat-flat-button color="primary" (click)="verMas(movil)">
+                       <button title="editar movil" mat-stroked-button color="primary" (click)="edit(movil)">
+                    <mat-icon>edit</mat-icon>
+                        </button>
+                        <button title="ver mas" mat-stroked-button  color="primary" (click)="verMas(movil)">
                             <mat-icon>segment</mat-icon>
                         </button>
+                       
             </td>
         </ng-container>
 
@@ -64,16 +67,16 @@
         <tr class="mat-row" *matNoDataRow>
             <td class="mat-cell" colspan="4">No hay datos para el filtro "{{input.value}}"</td>
         </tr>
-    </table>
-    <router-outlet></router-outlet>
-    <!--Paginador-->
+        </table>
+        <router-outlet></router-outlet>
+        <!--Paginador-->
 
-    <mat-paginator [pageSizeOptions]="[4, 10, 20]" showFirstLastButtons></mat-paginator>
+     <mat-paginator [pageSizeOptions]="[4, 10, 20]" showFirstLastButtons></mat-paginator>
 
-</div>
+    </div>  
 
 
-<div *ngIf="mostrarFormulario">
+         <div *ngIf="mostrarFormulario">
     <mat-tab-group>
         <mat-tab label="Detalle Movil">
             <mat-card>
@@ -167,21 +170,22 @@
         </mat-tab>
 
       </mat-tab-group>
-</div>
- <!--Formulario Agregar Movil a Control Flota-->
-
- <div *ngIf="mostrarFormularioAgregarMovil">
-    <mat-card>
+         </div>
+ 
+        
+            <!--Formulario Agregar Movil a Control Flota-->
+            <div *ngIf="mostrarFormularioAgregarMovil">
+                 <mat-card>
         <button mat-stroked-button id="salir" type="button" style="float:right;" color="primary" (click)="cancelar()">Salir</button>
         <app-agregar-movil></app-agregar-movil>
 
-    </mat-card>
-</div>
+                </mat-card>
+            </div>
 
- <!--Formulario Editar movil-->
-
- <div *ngIf="mostrarFormularioEditarMovil">
-    <mat-card>
+             <!--Formulario Editar movil-->
+            <div *ngIf="mostrarFormularioEditarMovil">
+        
+             <mat-card>
         <button type="button" id="salir" mat-stroked-button color="primary" (click)="cancelar()" style="float:right;">Salir</button>
         <mat-tab-group>
             <mat-tab label="Datos del Movil">
@@ -283,8 +287,9 @@
                     </div>
                 </mat-tab>
             </mat-tab-group>
-        </mat-card>
-    </div>
+             </mat-card>
 
+        </div>
+    
 
 </div>

@@ -30,16 +30,16 @@
 
         <ng-container matColumnDef="estado">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
-            <td mat-cell *matCellDef="let mobi"> {{mobi.mobiProximaFecha == fechaActual? 'fecha limite' : 'cosas' }} </td>
+            <td mat-cell *matCellDef="let mobi"> {{mobi.mobiProximaFecha == fechaActual? 'fecha limite' : '-' }} </td>
         </ng-container>
 
         <ng-container matColumnDef="acciones">
             <th mat-header-cell *matHeaderCellDef>Acciones</th>
             <td mat-cell *matCellDef="let serv">
-                <button title="quitar pendiente" mat-raised-button color="primary" style="margin-right: 10px;" (click)="edit(serv)">
+                <button title="quitar pendiente" mat-stroked-button color="primary" style="margin-right: 10px;" (click)="edit(serv)">
                     <mat-icon>edit</mat-icon>
                 </button>  
-                <button title="realizar servicio pendiente" mat-raised-button color="primary" (click)="realizarServicio(serv)" [disabled]="serv.mobiPendiente == 0">
+                <button title="realizar servicio pendiente" mat-stroked-button color="primary" (click)="realizarServicio(serv)" [disabled]="serv.mobiPendiente == 0">
                     <mat-icon>add</mat-icon>
                 </button>
             </td>
