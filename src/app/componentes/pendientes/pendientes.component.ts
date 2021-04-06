@@ -1,4 +1,4 @@
-import { Component,OnInit, ViewChild, } from '@angular/core';
+import { Component,OnInit,Input, ViewChild, } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { MovilBitacoraService } from '../../servicios/movil-bitacora.service';
@@ -15,6 +15,8 @@ import { MatPaginator } from '@angular/material/paginator';
 export class PendientesComponent implements OnInit {
 
   items: MovilBitacora[] = [];
+
+  @Input() moviId: number= 0;
 
   seleccionado = new MovilBitacora();
 
