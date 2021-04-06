@@ -75,17 +75,17 @@
 
     </div>  
 
-
+                <!--Detalle Movil-->
          <div *ngIf="mostrarFormulario">
-    <mat-tab-group>
-        <mat-tab label="Detalle Movil">
+        <mat-tab-group>
+            <mat-tab label="Detalle Movil">
             <mat-card>
                 <mat-grid-list cols="2" rowHeight="4:4">
 
                     <!--COLUMNA DETALLE MOVIL-->
 
 
-<mat-grid-tile
+                <mat-grid-tile
                     [colspan]="1"
                     [rowspan]="1">
                         <!--detalle del movil-->
@@ -135,7 +135,7 @@
                         </table>
                     </div>
                     &nbsp;
-                    </mat-grid-tile>
+                </mat-grid-tile>
 
                     <!--COLUMNA SERVICIOS-->
 
@@ -148,28 +148,38 @@
                         </div>
                      </mat-grid-tile>
 
-<!--Formulario de odometro-->
-</mat-grid-list>
+
+    </mat-grid-list>
             </mat-card>
-        </mat-tab>
-        <mat-tab label="Odometro">
+            </mat-tab>
+            <!--Formulario de odometro-->
+             <mat-tab label="Odometro">
             <mat-card>
                 <app-movil-odometro [moviId]="seleccionado.moviId"></app-movil-odometro>
                 <br>
                 <button type="button" mat-stroked-button color="primary" (click)="cancelar()">Salir</button>
             </mat-card>
-        </mat-tab>
-
+             </mat-tab>
             <!--Formulario de bitacora-->
-        <mat-tab label="Bitacora">
+            <mat-tab label="Bitacora">
             <mat-card>
                 <app-movil-bitacora [moviId]="seleccionado.moviId"></app-movil-bitacora>
                 <br>
                 <button type="button" mat-stroked-button color="primary" (click)="cancelar()">Salir</button>
             </mat-card>
-        </mat-tab>
+            </mat-tab>
+           
+            <mat-tab label="Pendiente">
+                <mat-card>
+                    <app-pendientes [moviId]="seleccionado.moviId"></app-pendientes>
+                    <br>
+                    <button type="button" mat-stroked-button color="primary" (click)="cancelar()">Salir</button>
+                </mat-card>
+                </mat-tab>
 
-      </mat-tab-group>
+
+
+        </mat-tab-group>
          </div>
  
         
@@ -185,17 +195,17 @@
              <!--Formulario Editar movil-->
             <div *ngIf="mostrarFormularioEditarMovil">
         
-             <mat-card>
-        <button type="button" id="salir" mat-stroked-button color="primary" (click)="cancelar()" style="float:right;">Salir</button>
-        <mat-tab-group>
-            <mat-tab label="Datos del Movil">
-               <div style="margin-top: 20px;">
-                    <div>
+            <mat-card>
+              <button type="button" id="salir" mat-stroked-button color="primary" (click)="cancelar()" style="float:right;">Salir</button>
+                  <mat-tab-group>
+                     <mat-tab label="Datos del Movil">
+                        <div style="margin-top: 20px;">
+                             <div>
                         
-                        <mat-label style="font-size: 25px; font-weight: 100;">Datos del Móvil</mat-label>
+                            <mat-label style="font-size: 25px; font-weight: 100;">Datos del Móvil</mat-label>
             
-                    </div>
-                    <div [hidden]="editarMovilF">
+                             </div>  
+                            <div [hidden]="editarMovilF">
                         <button mat-stroked-button color="primary" (click)="editarMovil()" style="float:right;">Editar</button>
 
                         <table style="width: 100%;">
@@ -214,9 +224,9 @@
                             <tr><td id="b">Estado</td><td>{{seleccionado.moviBorrado == 0 ? 'Registrado en Control Flota' : 'No registrado en Control flota'}}</td></tr>
                             <mat-divider ></mat-divider>
                         </table>
-                    </div>
-                        <!--Formulario -->
-                    <div *ngIf="editarMovilF" style="margin-top: 10px;">
+                            </div>
+                         <!--Formulario -->
+                         <div *ngIf="editarMovilF" style="margin-top: 10px;">
                         <form [formGroup]="form">
                             <ng-template matStepLabel>Editar Móvil</ng-template>
                             <mat-form-field appearance="outline">
@@ -277,17 +287,17 @@
                             <br>
                         </form>
 
-                    </div>
-               </div>
-            </mat-tab>
+                         </div>
+                        </div>
+                    </mat-tab>
                 <mat-tab label="Grupo/s del Movil">
                     <div style="margin-top: 20px;">
                         <mat-label style="font-size: 25px; font-weight: 100">Grupo/s del Móvil</mat-label>
                         <app-movil-grupo [moviId]="seleccionado.moviId"></app-movil-grupo>
                     </div>
                 </mat-tab>
-            </mat-tab-group>
-             </mat-card>
+                  </mat-tab-group>
+            </mat-card>
 
         </div>
     
